@@ -173,7 +173,7 @@ function addRealEstateIncomeRow(name = '', monthlyIncome = '', index = null) {
     <td><input type="number" class="form-control form-control-sm" value="${monthlyIncome}" placeholder="0" onchange="updateRealEstateIncome(${index || table.rows.length - 1}, this.value, 'monthlyIncome')"></td>
     <td>
       <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateIncomeRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateIncomeRow(${index || table.rows.length - 1})">-</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateIncomeRow(${index || table.rows.length - 1})">🗑️</button>
     </td>
   `;
   
@@ -198,7 +198,7 @@ function addStockRow(name = '', quantity = '', price = '', index = null) {
     <td><span class="form-control-plaintext small">${formatCurrency((parseFloat(quantity) || 0) * (parseFloat(price) || 0))}</span></td>
     <td>
       <button type="button" class="btn btn-sm btn-success me-1" onclick="addStockRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeStockRow(${index || table.rows.length - 1})">-</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeStockRow(${index || table.rows.length - 1})">🗑️</button>
     </td>
   `;
   
@@ -222,7 +222,7 @@ function addRealEstateAssetRow(name = '', downPayment = '', price = '', index = 
     <td><input type="number" class="form-control form-control-sm" value="${price}" placeholder="0" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'price')"></td>
     <td>
       <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateAssetRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateAssetRow(${index || table.rows.length - 1})">-</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateAssetRow(${index || table.rows.length - 1})">🗑️</button>
     </td>
   `;
   
@@ -245,7 +245,7 @@ function addRealEstateLiabilityRow(name = '', mortgage = '', index = null) {
     <td><input type="number" class="form-control form-control-sm" value="${mortgage}" placeholder="0" onchange="updateRealEstateLiability(${index || table.rows.length - 1}, this.value, 'mortgage')"></td>
     <td>
       <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateLiabilityRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateLiabilityRow(${index || table.rows.length - 1})">-</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateLiabilityRow(${index || table.rows.length - 1})">🗑️</button>
     </td>
   `;
   
@@ -575,7 +575,7 @@ function addTransactionRow() {
     </td>
     <td>
       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTransactionRow('${transactionId}')" title="Удалить">
-        <i class="bi bi-trash"></i>
+        🗑️
       </button>
     </td>
   `;
@@ -717,7 +717,7 @@ function renderTransactions() {
       </td>
       <td>
         <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTransactionRow('${transaction.id}')" title="Удалить">
-          <i class="bi bi-trash"></i>
+          🗑️
         </button>
       </td>
     `;
@@ -764,7 +764,7 @@ function addBusinessRow() {
     </td>
     <td>
       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeBusinessRow('${businessId}')" title="Удалить">
-        <i class="bi bi-trash"></i>
+        🗑️
       </button>
     </td>
   `;
@@ -872,7 +872,7 @@ function renderBusinesses() {
       </td>
       <td>
         <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeBusinessRow('${business.id}')" title="Удалить">
-          <i class="bi bi-trash"></i>
+          🗑️
         </button>
       </td>
     `;
