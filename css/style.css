@@ -1,102 +1,174 @@
-/* Стили для игры "Крысиные бега" */
+/* Стили для игры "Крысиные бега" - Мобильная оптимизация */
 
 /* Общие стили */
 body {
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Адаптивные заголовки */
 h1 {
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 h2 {
     font-size: 1.25rem;
+    font-weight: 600;
 }
 
 h5 {
     font-size: 1rem;
+    font-weight: 600;
 }
 
 h6 {
     font-size: 0.9rem;
+    font-weight: 600;
 }
 
 /* Карточки */
 .card {
     margin-bottom: 1rem;
     border: 1px solid #dee2e6;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
     background-color: #f8f9fa;
     border-bottom: 1px solid #dee2e6;
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .card-body {
-    padding: 0.75rem;
+    padding: 1rem;
 }
 
 /* Формы */
 .form-control {
-    font-size: 0.875rem;
+    font-size: 16px; /* Предотвращает zoom на iOS */
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 .form-control-sm {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
+    font-size: 14px;
+    padding: 0.5rem 0.75rem;
 }
 
 .form-label {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    color: #495057;
 }
 
 .small {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
 }
 
 /* Кнопки */
 .btn {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease-in-out;
+    touch-action: manipulation;
 }
 
 .btn-sm {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    min-height: 40px;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.btn-success {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+    border-color: #b02a37;
 }
 
 /* Таблицы */
 .table {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     margin-bottom: 0.5rem;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .table th {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    padding: 0.25rem 0.5rem;
-    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .table td {
-    padding: 0.25rem 0.5rem;
+    padding: 0.75rem 0.5rem;
     vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
 }
 
 .table-responsive {
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid #dee2e6;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Рассчитанные поля */
 .calculated-field {
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
 }
 
 .text-success {
@@ -115,29 +187,126 @@ h6 {
 .nav-tabs {
     border-bottom: 1px solid #dee2e6;
     margin-bottom: 0;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    min-width: 0;
 }
 
 .nav-tabs .nav-link {
     font-size: 0.8rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 0.5rem;
     border: 1px solid transparent;
     border-radius: 0.375rem 0.375rem 0 0;
+    margin-right: 0.25rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: #dee2e6;
 }
 
 .nav-tabs .nav-link.active {
     color: #495057;
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff;
+    font-weight: 600;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .nav-tabs .nav-link.disabled {
     color: #6c757d;
-    background-color: transparent;
+    background-color: rgba(108, 117, 125, 0.1);
     border-color: transparent;
+    cursor: not-allowed;
 }
 
 /* Мобильная адаптация */
 @media (max-width: 768px) {
+    .container-fluid {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    .card-header {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .table {
+        font-size: 0.8rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.5rem 0.375rem;
+    }
+    
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+    }
+    
+    .form-control {
+        font-size: 16px; /* Важно для предотвращения zoom на iOS */
+        padding: 0.6rem;
+    }
+    
+    .form-control-sm {
+        font-size: 14px;
+        padding: 0.4rem 0.6rem;
+    }
+    
+    .nav-tabs .nav-link {
+        font-size: 0.75rem;
+        padding: 0.6rem 0.4rem;
+        min-height: 44px;
+    }
+    
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    h2 {
+        font-size: 1.15rem;
+    }
+    
+    h5 {
+        font-size: 0.95rem;
+    }
+    
+    h6 {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
     .container-fluid {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
@@ -157,39 +326,43 @@ h6 {
     
     .table th,
     .table td {
-        padding: 0.2rem 0.3rem;
+        padding: 0.4rem 0.25rem;
     }
     
     .btn {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.4rem;
+        font-size: 0.8rem;
+        padding: 0.5rem 0.6rem;
+        min-height: 44px;
     }
     
     .btn-sm {
         font-size: 0.7rem;
-        padding: 0.15rem 0.3rem;
+        padding: 0.3rem 0.5rem;
+        min-height: 36px;
     }
     
     .form-control {
-        font-size: 0.8rem;
+        font-size: 16px;
+        padding: 0.5rem;
     }
     
     .form-control-sm {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.4rem;
+        font-size: 14px;
+        padding: 0.3rem 0.5rem;
     }
     
     .nav-tabs .nav-link {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+        padding: 0.5rem 0.3rem;
+        min-height: 40px;
     }
     
     h1 {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
     }
     
     h2 {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
     
     h5 {
@@ -198,70 +371,6 @@ h6 {
     
     h6 {
         font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .container-fluid {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
-    }
-    
-    .card-body {
-        padding: 0.375rem;
-    }
-    
-    .card-header {
-        padding: 0.25rem 0.375rem;
-    }
-    
-    .table {
-        font-size: 0.7rem;
-    }
-    
-    .table th,
-    .table td {
-        padding: 0.15rem 0.25rem;
-    }
-    
-    .btn {
-        font-size: 0.7rem;
-        padding: 0.15rem 0.3rem;
-    }
-    
-    .btn-sm {
-        font-size: 0.65rem;
-        padding: 0.1rem 0.25rem;
-    }
-    
-    .form-control {
-        font-size: 0.75rem;
-    }
-    
-    .form-control-sm {
-        font-size: 0.7rem;
-        padding: 0.15rem 0.3rem;
-    }
-    
-    .nav-tabs .nav-link {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.5rem;
-    }
-    
-    h1 {
-        font-size: 1.1rem;
-    }
-    
-    h2 {
-        font-size: 1rem;
-    }
-    
-    h5 {
-        font-size: 0.85rem;
-    }
-    
-    h6 {
-        font-size: 0.75rem;
     }
     
     /* Скрываем некоторые колонки на очень маленьких экранах */
@@ -274,21 +383,37 @@ h6 {
 /* Улучшения для touch-устройств */
 @media (hover: none) and (pointer: coarse) {
     .btn {
-        min-height: 44px;
-        min-width: 44px;
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.75rem 1rem;
     }
     
     .btn-sm {
-        min-height: 36px;
-        min-width: 36px;
+        min-height: 40px;
+        min-width: 40px;
+        padding: 0.5rem 0.75rem;
     }
     
     .form-control {
-        min-height: 44px;
+        min-height: 48px;
+        padding: 0.75rem;
     }
     
     .form-control-sm {
-        min-height: 36px;
+        min-height: 40px;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .nav-tabs .nav-link {
+        min-height: 48px;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    /* Увеличиваем область нажатия для ссылок */
+    a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
     }
 }
 
@@ -302,7 +427,7 @@ h6 {
 }
 
 .card:hover {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
 /* Специальные стили для рассчитанных полей */
@@ -310,8 +435,15 @@ h6 {
 #total-expenses,
 #monthly-cash-flow,
 #passive-income {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width: 768px) {
@@ -319,7 +451,9 @@ h6 {
     #total-expenses,
     #monthly-cash-flow,
     #passive-income {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+        padding: 0.4rem;
+        min-height: 44px;
     }
 }
 
@@ -328,7 +462,9 @@ h6 {
     #total-expenses,
     #monthly-cash-flow,
     #passive-income {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
+        padding: 0.3rem;
+        min-height: 40px;
     }
 }
 
@@ -342,63 +478,390 @@ h6 {
     display: block;
     width: 100%;
     margin-top: 0.25rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #dc3545;
 }
 
 /* Улучшенные стили для валидации на мобильных устройствах */
 @media (max-width: 768px) {
     .invalid-feedback {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
     }
 }
 
 @media (max-width: 576px) {
     .invalid-feedback {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
     }
 }
 
 /* Стили для информационных блоков */
 .alert-sm {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
 }
 
 .alert-sm .alert-heading {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .alert-sm ul {
     margin-bottom: 0;
-    padding-left: 1rem;
+    padding-left: 1.2rem;
 }
 
 .alert-sm li {
-    margin-bottom: 0.125rem;
+    margin-bottom: 0.25rem;
 }
 
 /* Адаптивность для информационных блоков */
 @media (max-width: 768px) {
     .alert-sm {
-        padding: 0.375rem 0.5rem;
-        font-size: 0.75rem;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.85rem;
     }
     
     .alert-sm .alert-heading {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 }
 
 @media (max-width: 576px) {
     .alert-sm {
-        padding: 0.25rem 0.375rem;
-        font-size: 0.7rem;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
     }
     
     .alert-sm .alert-heading {
+        font-size: 0.85rem;
+    }
+}
+
+/* Дополнительные улучшения для мобильных устройств */
+@media (max-width: 768px) {
+    /* Улучшаем отступы между элементами */
+    .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+    
+    .mt-3 {
+        margin-top: 1rem !important;
+    }
+    
+    /* Улучшаем сетку Bootstrap для мобильных */
+    .row {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+    
+    .col-12, .col-6, .col-4, .col-3 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+
+/* Стили для лучшей читаемости на мобильных */
+@media (max-width: 576px) {
+    /* Увеличиваем контрастность текста */
+    body {
+        color: #212529;
+    }
+    
+    /* Улучшаем видимость границ */
+    .card {
+        border-width: 1px;
+        border-color: #dee2e6;
+    }
+    
+    /* Улучшаем видимость кнопок */
+    .btn {
+        border-width: 1px;
+        font-weight: 500;
+    }
+}
+
+/* Стили для горизонтальной прокрутки таблиц */
+.table-responsive {
+    position: relative;
+}
+
+.table-responsive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Улучшения для accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Стили для темной темы (если поддерживается) */
+@media (prefers-color-scheme: dark) {
+    .card {
+        background-color: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .card-header {
+        background-color: #4a5568;
+        border-color: #718096;
+    }
+    
+    .form-control {
+        background-color: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .form-control:focus {
+        background-color: #2d3748;
+        border-color: #63b3ed;
+        color: #e2e8f0;
+    }
+}
+
+/* Дополнительные улучшения для мобильных устройств */
+
+/* Улучшения для iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .form-control {
+        font-size: 16px !important; /* Предотвращает zoom */
+    }
+    
+    .form-control-sm {
+        font-size: 16px !important;
+    }
+}
+
+/* Улучшения для Android Chrome */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .form-control {
+        -webkit-appearance: none;
+        border-radius: 0.375rem;
+    }
+}
+
+/* Стили для лучшей работы с клавиатурой на мобильных */
+.form-control:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* Улучшения для таблиц на мобильных */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table th,
+    .table td {
+        white-space: nowrap;
+    }
+    
+    /* Добавляем индикатор прокрутки */
+    .table-responsive::after {
+        content: '← Прокрутите для просмотра →';
+        display: block;
+        text-align: center;
+        font-size: 0.7rem;
+        color: #6c757d;
+        padding: 0.25rem;
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+    }
+}
+
+/* Улучшения для кнопок на мобильных */
+@media (max-width: 768px) {
+    .btn {
+        margin-bottom: 0.5rem;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .btn-sm {
+        width: auto;
+        max-width: none;
+    }
+}
+
+/* Стили для лучшей видимости на мобильных */
+@media (max-width: 576px) {
+    /* Увеличиваем контрастность */
+    .text-muted {
+        color: #495057 !important;
+    }
+    
+    /* Улучшаем видимость границ */
+    .border {
+        border-width: 1px !important;
+    }
+    
+    /* Улучшаем видимость теней */
+    .shadow-sm {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15) !important;
+    }
+}
+
+/* Стили для accessibility */
+@media (prefers-reduced-motion: no-preference) {
+    .btn:active {
+        transform: scale(0.98);
+    }
+    
+    .card:active {
+        transform: scale(0.99);
+    }
+}
+
+/* Улучшения для landscape ориентации на мобильных */
+@media (max-width: 768px) and (orientation: landscape) {
+    .nav-tabs .nav-link {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.3rem;
+        min-height: 36px;
+    }
+    
+    .card-body {
+        padding: 0.5rem;
+    }
+    
+    .btn {
+        min-height: 40px;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Стили для очень маленьких экранов */
+@media (max-width: 360px) {
+    .container-fluid {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+    
+    .nav-tabs .nav-link {
+        font-size: 0.65rem;
+        padding: 0.4rem 0.2rem;
+        min-height: 36px;
+    }
+    
+    .btn {
         font-size: 0.75rem;
+        padding: 0.4rem 0.5rem;
+        min-height: 40px;
+    }
+    
+    .form-control {
+        font-size: 14px;
+        padding: 0.4rem;
+    }
+    
+    h1 {
+        font-size: 1.1rem;
+    }
+    
+    h2 {
+        font-size: 1rem;
+    }
+}
+
+/* Стили для улучшения производительности на мобильных */
+* {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+}
+
+/* Стили для лучшей работы с touch */
+.touch-action-manipulation {
+    touch-action: manipulation;
+}
+
+/* Улучшения для форм на мобильных */
+@media (max-width: 768px) {
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-label {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .form-control {
+        border-width: 1px;
+    }
+    
+    .form-control:focus {
+        border-width: 2px;
+    }
+}
+
+/* Стили для лучшей работы с клавиатурой */
+.form-control:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Улучшения для информационных блоков на мобильных */
+@media (max-width: 768px) {
+    .alert {
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+    }
+    
+    .alert-sm {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+    
+    .alert-sm .alert-heading {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Стили для лучшей работы с прокруткой */
+@media (max-width: 768px) {
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+    
+    .table-responsive::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+    
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
     }
 }
