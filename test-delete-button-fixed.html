@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест кнопки удаления (исправлено)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Тест кнопки удаления (исправлено)</h1>
+        
+        <!-- Целевые суммы -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="h6 mb-0">Целевые суммы</h5>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Пассивный доход при переходе:</label>
+                                    <div id="stage2-passive-income" class="form-control-plaintext fw-bold text-info">0 ₽</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Поле 1 (×100):</label>
+                                    <div id="stage2-field1" class="form-control-plaintext fw-bold text-primary">0 ₽</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Поле 2 (Поле 1 + 50,000):</label>
+                                    <div id="stage2-field2" class="form-control-plaintext fw-bold text-success">0 ₽</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Текущий доход от бизнесов:</label>
+                                    <div id="stage2-current-income" class="form-control-plaintext fw-bold text-warning">0 ₽</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Таблица бизнесов -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="h6 mb-0">Бизнесы</h5>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addBusinessRow()">
+                    ➕ Добавить бизнес
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="small">Бизнес</th>
+                                <th class="small">Месячный денежный поток</th>
+                                <th class="small" style="width: 60px;">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="businesses-table-body">
+                            <!-- Строки бизнесов будут добавляться динамически -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Тестовые кнопки -->
+        <div class="mt-4">
+            <h3>Тестовые сценарии</h3>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary" onclick="testScenario1()">Настроить 2 этап</button>
+                <button type="button" class="btn btn-success" onclick="testScenario2()">Добавить бизнес</button>
+                <button type="button" class="btn btn-warning" onclick="testScenario3()">Проверить кнопки</button>
+            </div>
+        </div>
+        
+        <!-- Консоль отладки -->
+        <div class="mt-4">
+            <h3>Консоль отладки</h3>
+            <div id="console" class="bg-dark text-light p-3" style="height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript файлов -->
+    <script src="js/game-data.js?v=6"></script>
+    <script src="js/calculations.js?v=2"></script>
+    <script src="js/app.js?v=18"></script>
+    
+    <script>
+        // Переопределяем функцию log для отображения в консоли
+        function log(message, data = null) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            console.innerHTML += logMessage + '<br>';
+            if (data) {
+                console.innerHTML += JSON.stringify(data, null, 2) + '<br>';
+            }
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Тестовые сценарии
+        function testScenario1() {
+            addToConsole('=== Настройка 2 этапа ===');
+            
+            gameState.stage2Unlocked = true;
+            gameState.currentStage = 2;
+            gameState.stage2.passiveIncomeAtTransition = 1000;
+            gameState.stage2.targetAmount = (1000 * 100) + 50000;
+            
+            updateStage2Display();
+            addToConsole('2 этап настроен');
+        }
+        
+        function testScenario2() {
+            addToConsole('=== Добавление бизнеса ===');
+            
+            // Добавляем бизнес
+            addBusinessRow();
+            
+            // Заполняем данные
+            setTimeout(() => {
+                const nameInput = document.querySelector('#businesses-table-body input[type="text"]');
+                const cashflowInput = document.querySelector('#businesses-table-body input[type="number"]');
+                
+                if (nameInput && cashflowInput) {
+                    nameInput.value = "Тестовый бизнес";
+                    cashflowInput.value = 5000;
+                    
+                    // Триггерим событие input
+                    nameInput.dispatchEvent(new Event('input'));
+                    cashflowInput.dispatchEvent(new Event('input'));
+                    
+                    addToConsole('Добавлен бизнес: ' + nameInput.value);
+                    addToConsole('Месячный денежный поток: ' + cashflowInput.value);
+                }
+            }, 100);
+        }
+        
+        function testScenario3() {
+            addToConsole('=== Проверка кнопок удаления ===');
+            
+            const deleteButtons = document.querySelectorAll('#businesses-table-body button');
+            addToConsole('Найдено кнопок удаления: ' + deleteButtons.length);
+            
+            if (deleteButtons.length > 0) {
+                addToConsole('✅ Кнопки удаления отображаются корректно');
+                addToConsole('Можно нажать на кнопку для удаления бизнеса');
+            } else {
+                addToConsole('❌ Кнопки удаления не найдены');
+                addToConsole('Сначала добавьте бизнес (Сценарий 2)');
+            }
+        }
+        
+        function addToConsole(message) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `[${timestamp}] ${message}<br>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            addToConsole('Страница загружена');
+            initStage2Tab();
+            addToConsole('2 этап инициализирован');
+            addToConsole('Кнопки удаления должны отображаться в столбце "Действия"');
+        });
+    </script>
+</body>
+</html>

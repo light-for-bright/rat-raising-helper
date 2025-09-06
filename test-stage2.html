@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест 2 этапа - Скоростная дорожка</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Тест 2 этапа - Скоростная дорожка</h1>
+        
+        <!-- Целевые суммы -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="h6 mb-0">Целевые суммы</h5>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Пассивный доход при переходе:</label>
+                                    <div id="stage2-passive-income" class="form-control-plaintext fw-bold text-info">0 ₽</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Поле 1 (×100):</label>
+                                    <div id="stage2-field1" class="form-control-plaintext fw-bold text-primary">0 ₽</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Поле 2 (Поле 1 + 50,000):</label>
+                                    <div id="stage2-field2" class="form-control-plaintext fw-bold text-success">0 ₽</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label small">Текущий доход от бизнесов:</label>
+                                    <div id="stage2-current-income" class="form-control-plaintext fw-bold text-warning">0 ₽</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Таблица бизнесов -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="h6 mb-0">Бизнесы</h5>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addBusinessRow()">
+                    ➕ Добавить бизнес
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="small">Бизнес</th>
+                                <th class="small">Месячный денежный поток</th>
+                                <th class="small">Доход</th>
+                                <th class="small" style="width: 60px;">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="businesses-table-body">
+                            <!-- Строки бизнесов будут добавляться динамически -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Статус победы -->
+        <div class="mt-3">
+            <div id="win-status" class="alert alert-success" style="display: none;">
+                <h5 class="alert-heading">🎉 Поздравляем!</h5>
+                <p class="mb-0">Вы достигли целевой суммы и выиграли игру!</p>
+            </div>
+        </div>
+        
+        <!-- Тестовые кнопки -->
+        <div class="mt-4">
+            <h3>Тестовые сценарии</h3>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary" onclick="testScenario1()">Сценарий 1: Разблокировка 2 этапа</button>
+                <button type="button" class="btn btn-success" onclick="testScenario2()">Сценарий 2: Добавление бизнесов</button>
+                <button type="button" class="btn btn-warning" onclick="testWinCondition()">Сценарий 3: Условие победы</button>
+                <button type="button" class="btn btn-secondary" onclick="clearAll()">Очистить все</button>
+            </div>
+        </div>
+        
+        <!-- Консоль отладки -->
+        <div class="mt-4">
+            <h3>Консоль отладки</h3>
+            <div id="console" class="bg-dark text-light p-3" style="height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript файлов -->
+    <script src="js/game-data.js?v=4"></script>
+    <script src="js/calculations.js?v=2"></script>
+    <script src="js/app.js?v=13"></script>
+    
+    <script>
+        // Переопределяем функцию log для отображения в консоли
+        function log(message, data = null) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            console.innerHTML += logMessage + '<br>';
+            if (data) {
+                console.innerHTML += JSON.stringify(data, null, 2) + '<br>';
+            }
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Тестовые сценарии
+        function testScenario1() {
+            addToConsole('=== Сценарий 1: Разблокировка 2 этапа ===');
+            
+            // Симулируем условия для разблокировки 2 этапа
+            gameState.stage2Unlocked = true;
+            gameState.currentStage = 2;
+            gameState.stage2.passiveIncomeAtTransition = 1000;
+            gameState.stage2.targetAmount = (1000 * 100) + 50000; // 150,000
+            
+            updateStage2Display();
+            addToConsole('2 этап разблокирован');
+            addToConsole('Пассивный доход при переходе: ' + gameState.stage2.passiveIncomeAtTransition);
+            addToConsole('Целевая сумма: ' + gameState.stage2.targetAmount);
+        }
+        
+        function testScenario2() {
+            addToConsole('=== Сценарий 2: Добавление бизнесов ===');
+            
+            // Добавляем несколько бизнесов
+            addBusinessRow();
+            addBusinessRow();
+            addBusinessRow();
+            
+            addToConsole('Добавлено 3 бизнеса');
+            addToConsole('Количество бизнесов: ' + gameState.stage2.businesses.length);
+        }
+        
+        function testWinCondition() {
+            addToConsole('=== Сценарий 3: Условие победы ===');
+            
+            // Добавляем бизнес с большим доходом
+            const business = {
+                id: Date.now().toString(),
+                name: "Супер бизнес",
+                monthlyCashFlow: 10000,
+                income: 150000 // Больше целевой суммы
+            };
+            
+            gameState.stage2.businesses.push(business);
+            calculateStage2CurrentIncome();
+            checkWinCondition();
+            
+            addToConsole('Добавлен бизнес с доходом: ' + business.income);
+            addToConsole('Текущий доход: ' + gameState.stage2.currentIncome);
+            addToConsole('Целевая сумма: ' + gameState.stage2.targetAmount);
+        }
+        
+        function clearAll() {
+            addToConsole('=== Очистка всех данных ===');
+            
+            // Очищаем бизнесы
+            gameState.stage2.businesses = [];
+            
+            // Сбрасываем состояние
+            gameState.stage2Unlocked = false;
+            gameState.currentStage = 1;
+            gameState.stage2.passiveIncomeAtTransition = 0;
+            gameState.stage2.targetAmount = 0;
+            gameState.stage2.currentIncome = 0;
+            gameState.gameWon = false;
+            
+            // Обновляем отображение
+            updateStage2Display();
+            renderBusinesses();
+            
+            // Скрываем уведомление о победе
+            const winStatus = document.getElementById("win-status");
+            if (winStatus) {
+                winStatus.style.display = "none";
+            }
+            
+            addToConsole('Все данные очищены');
+        }
+        
+        function addToConsole(message) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `[${timestamp}] ${message}<br>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            addToConsole('Страница загружена');
+            initStage2Tab();
+            addToConsole('2 этап инициализирован');
+        });
+    </script>
+</body>
+</html>

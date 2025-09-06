@@ -248,3 +248,99 @@ function updateTransaction(transactionId, amount, type, description) {
   }
 }
 
+
+// Функции для работы с 2 этапом
+
+// Расчет текущего дохода от бизнесов (сумма месячных денежных потоков)
+function calculateStage2CurrentIncome() {
+  let totalIncome = 0;
+  
+  gameState.stage2.businesses.forEach(business => {
+    totalIncome += parseFloat(business.monthlyCashFlow) || 0;
+  });
+  
+  gameState.stage2.currentIncome = totalIncome;
+  log("Текущий доход от бизнесов рассчитан (сумма денежных потоков)", { totalIncome });
+  return totalIncome;
+}
+
+// Добавление бизнеса
+function addBusiness(name, monthlyCashFlow, income) {
+  const business = {
+    id: Date.now().toString(),
+    name: name || "",
+    monthlyCashFlow: parseFloat(monthlyCashFlow) || 0,
+    income: parseFloat(income) || 0
+  };
+  
+  gameState.stage2.businesses.push(business);
+  calculateStage2CurrentIncome();
+  saveGame();
+  log("Бизнес добавлен", business);
+  return business;
+}
+
+// Удаление бизнеса
+function removeBusiness(businessId) {
+  const index = gameState.stage2.businesses.findIndex(b => b.id === businessId);
+  if (index !== -1) {
+    const removed = gameState.stage2.businesses.splice(index, 1)[0];
+    calculateStage2CurrentIncome();
+    saveGame();
+    log('Бизнес удален', removed);
+    return removed;
+  }
+  return null;
+}
+
+// Обновление бизнеса
+function updateBusiness(businessId, name, monthlyCashFlow, income) {
+  const business = gameState.stage2.businesses.find(b => b.id === businessId);
+  if (business) {
+    business.name = name || "";
+    business.monthlyCashFlow = parseFloat(monthlyCashFlow) || 0;
+    business.income = parseFloat(income) || 0;
+    calculateStage2CurrentIncome();
+    saveGame();
+    log("Бизнес обновлен", business);
+    return business;
+  } else {
+    // Если бизнес не найден, создаем новый
+    return addBusiness(name, monthlyCashFlow, income);
+  }
+}
+
+// Проверка условия победы
+function checkWinCondition() {
+  if (!gameState.stage2Unlocked) {
+    return false;
+  }
+  
+  const currentIncome = calculateStage2CurrentIncome();
+  const targetAmount = gameState.stage2.targetAmount || 0;
+  
+  if (currentIncome >= targetAmount) {
+    gameState.gameWon = true;
+    showWinNotification();
+    log("Игра выиграна!", { currentIncome, targetAmount });
+    return true;
+  }
+  
+  return false;
+}
+
+// Показ уведомления о победе
+function showWinNotification() {
+  const winStatus = document.getElementById("win-status");
+  if (winStatus) {
+    winStatus.style.display = "block";
+    winStatus.classList.remove("alert-info");
+    winStatus.classList.add("alert-success");
+  }
+  
+  // Показываем уведомление
+  showNotification("🎉 Поздравляем! Вы выиграли игру 'Крысиные бега'!");
+}
+
+
+

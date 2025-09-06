@@ -400,7 +400,7 @@
                                     <tr>
                                         <th class="small" style="width: 80px;">Тип</th>
                                         <th class="small">Сумма</th>
-                                        
+                                        <th class="small" style="width: 60px;">Действия</th>
                                     </tr>
                                 </thead>
                                 <tbody id="transactions-table-body">
@@ -415,91 +415,15 @@
             <!-- Вкладка 3: Скоростная дорожка -->
             <div class="tab-pane fade" id="stage2">
                 <h2 class="h5 mb-3">Скоростная дорожка. 2 этап</h2>
-                
-                <!-- Целевые суммы -->
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="h6 mb-0">Целевые суммы</h5>
-                            </div>
-                            <div class="card-body p-2">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            <label class="form-label small">Пассивный доход при переходе:</label>
-                                            <div id="stage2-passive-income" class="form-control-plaintext fw-bold text-info">0 ₽</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            <label class="form-label small">Поле 1 (×100):</label>
-                                            <div id="stage2-field1" class="form-control-plaintext fw-bold text-primary">0 ₽</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            <label class="form-label small">Поле 2 (Поле 1 + 50,000):</label>
-                                            <div id="stage2-field2" class="form-control-plaintext fw-bold text-success">0 ₽</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-2">
-                                            <label class="form-label small">Текущий доход от бизнесов:</label>
-                                            <div id="stage2-current-income" class="form-control-plaintext fw-bold text-warning">0 ₽</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Таблица бизнесов -->
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="h6 mb-0">Бизнесы</h5>
-                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addBusinessRow()">
-                            ➕ Добавить бизнес
-                        </button>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-sm table-hover mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="small">Бизнес</th>
-                                        <th class="small">Месячный денежный поток</th>
-                                <th class="small" style="width: 60px;">Действия</th>
-                                        
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody id="businesses-table-body">
-                                    <!-- Строки бизнесов будут добавляться динамически -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Статус победы -->
-                <div class="mt-3">
-                    <div id="win-status" class="alert alert-success" style="display: none;">
-                        <h5 class="alert-heading">🎉 Поздравляем!</h5>
-                        <p class="mb-0">Вы достигли целевой суммы и выиграли игру!</p>
-                    </div>
-                </div>
+                <p class="text-muted small">Эта вкладка будет разблокирована после выполнения условий 1 этапа</p>
             </div>
         </div>
     </div>
 
     <!-- Подключение JavaScript файлов -->
-    <script src="js/game-data.js?v=6"></script>
+    <script src="js/game-data.js?v=4"></script>
     <script src="js/calculations.js?v=2"></script>
-    <script src="js/app.js?v=18"></script>
+    <script src="js/app.js?v=10"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

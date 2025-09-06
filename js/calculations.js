@@ -130,6 +130,10 @@ function checkStage2Conditions() {
     updateTabVisibility();
     
     // Показываем уведомление
+    // Инициализируем 2 этап
+    if (typeof initStage2Tab === "function") {
+      initStage2Tab();
+    }
     showNotification('Поздравляем! 2 этап "Скоростная дорожка" разблокирован!');
   }
   

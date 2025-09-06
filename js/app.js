@@ -29,6 +29,10 @@ function initApp() {
   }
   
   // Инициализируем вкладку бланка учета денежных средств
+  // Инициализируем вкладку 2 этапа
+  if (typeof initStage2Tab === "function") {
+    initStage2Tab();
+  }
   if (typeof initCashFlowTab === 'function') {
     initCashFlowTab();
   }
@@ -563,6 +567,8 @@ function updateTransactionFromUI(transactionId) {
     document.getElementById("current-balance").textContent = formatCurrency(gameState.cashFlow.currentBalance);
     
     // Сохраняем изменения
+    // Очищаем пустые бизнесы
+    cleanupEmptyBusinesses();
     saveGame();
     
     log("Транзакция обновлена", { transactionId, amount, type, currentBalance: gameState.cashFlow.currentBalance });
@@ -668,4 +674,203 @@ window.removeTransactionRow = removeTransactionRow;
 window.updateTransactionFromUI = updateTransactionFromUI;
 window.updateStartingCapital = updateStartingCapital;
 window.initCashFlowTab = initCashFlowTab;
+
+
+// Функции для работы с 2 этапом - Скоростная дорожка
+
+// Добавление строки бизнеса
+function addBusinessRow() {
+  const tbody = document.getElementById("businesses-table-body");
+  
+  const businessId = Date.now().toString();
+  
+  const row = document.createElement("tr");
+  row.id = `business-row-${businessId}`;
+  row.innerHTML = `
+    <td>
+      <input type="text" class="form-control form-control-sm" id="business-name-${businessId}" placeholder="Название бизнеса">
+    </td>
+    <td>
+      <input type="number" class="form-control form-control-sm" id="business-cashflow-${businessId}" placeholder="0" step="0.01">
+    </td>
+    <td>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeBusinessRow('${businessId}')" title="Удалить">
+        <i class="bi bi-trash"></i>
+      </button>
+    </td>
+  `;
+  
+  tbody.appendChild(row);
+  
+  // Добавляем обработчики событий
+  const nameInput = document.getElementById(`business-name-${businessId}`);
+  const cashflowInput = document.getElementById(`business-cashflow-${businessId}`);
+  
+  nameInput.addEventListener("input", () => updateBusinessFromUI(businessId));
+  cashflowInput.addEventListener("input", () => updateBusinessFromUI(businessId));
+  
+  log("Добавлена строка бизнеса", { businessId });
+}
+
+
+// Обновление бизнеса
+function updateBusinessFromUI(businessId) {
+  const name = document.getElementById(`business-name-${businessId}`)?.value;
+  const cashflow = document.getElementById(`business-cashflow-${businessId}`)?.value;
+  
+  if (name || cashflow) {
+    // Проверяем, существует ли бизнес
+    let business = gameState.stage2.businesses.find(b => b.id === businessId);
+    
+    if (business) {
+      // Обновляем существующий бизнес
+      business.name = name || "";
+      business.monthlyCashFlow = parseFloat(cashflow) || 0;
+    } else {
+      // Создаем новый бизнес
+      business = {
+        id: businessId,
+        name: name || "",
+        monthlyCashFlow: parseFloat(cashflow) || 0,
+      };
+      gameState.stage2.businesses.push(business);
+    }
+    
+    // Пересчитываем текущий доход от бизнесов
+    calculateStage2CurrentIncome();
+    calculateStage2CurrentIncome();
+    
+    // Обновляем отображение
+    updateStage2Display();
+    
+    // Проверяем условие победы
+    checkWinCondition();
+    
+    // Сохраняем изменения
+    // Очищаем пустые бизнесы
+    cleanupEmptyBusinesses();
+    saveGame();
+    
+    log("Бизнес обновлен", { businessId, name, cashflow, income });
+  }
+}
+
+// Инициализация 2 этапа
+function initStage2Tab() {
+  // Обновляем отображение целевых сумм
+  updateStage2Display();
+  
+  // Загружаем существующие бизнесы
+  renderBusinesses();
+  
+  log("Вкладка 2 этапа инициализирована");
+}
+
+// Обновление отображения 2 этапа
+function updateStage2Display() {
+  // Пассивный доход при переходе
+  document.getElementById("stage2-passive-income").textContent = formatCurrency(gameState.stage2.passiveIncomeAtTransition || 0);
+  
+  // Поле 1 (×100)
+  const field1 = (gameState.stage2.passiveIncomeAtTransition || 0) * GAME_CONFIG.STAGE2_MULTIPLIER;
+  document.getElementById("stage2-field1").textContent = formatCurrency(field1);
+  
+  // Поле 2 (Поле 1 + 50,000)
+  const field2 = field1 + GAME_CONFIG.STAGE2_BONUS;
+  document.getElementById("stage2-field2").textContent = formatCurrency(field2);
+  
+  // Текущий доход от бизнесов
+  const currentIncome = calculateStage2CurrentIncome();
+  document.getElementById("stage2-current-income").textContent = formatCurrency(currentIncome);
+  
+  log("Отображение 2 этапа обновлено", { field1, field2, currentIncome });
+}
+
+// Отображение бизнесов в таблице
+function renderBusinesses() {
+  const tbody = document.getElementById("businesses-table-body");
+  tbody.innerHTML = "";
+  
+  gameState.stage2.businesses.forEach(business => {
+    const row = document.createElement("tr");
+    row.id = `business-row-${business.id}`;
+    row.innerHTML = `
+      <td>
+        <input type="text" class="form-control form-control-sm" id="business-name-${business.id}" value="${business.name}">
+      </td>
+      <td>
+        <input type="number" class="form-control form-control-sm" id="business-cashflow-${business.id}" value="${business.monthlyCashFlow}" step="0.01">
+      </td>
+      <td>
+        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeBusinessRow('${business.id}')" title="Удалить">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    `;
+    
+    tbody.appendChild(row);
+    
+    // Добавляем обработчики событий
+    const nameInput = document.getElementById(`business-name-${business.id}`);
+    const cashflowInput = document.getElementById(`business-cashflow-${business.id}`);
+    
+    nameInput.addEventListener("input", () => updateBusinessFromUI(business.id));
+    cashflowInput.addEventListener("input", () => updateBusinessFromUI(business.id));
+  });
+  
+  log("Бизнесы отображены", { count: gameState.stage2.businesses.length });
+}
+
+// Делаем функции глобально доступными
+window.addBusinessRow = addBusinessRow;
+window.updateBusinessFromUI = updateBusinessFromUI;
+window.initStage2Tab = initStage2Tab;
+window.updateStage2Display = updateStage2Display;
+window.renderBusinesses = renderBusinesses;
+
+
+
+
+// Автоматическое удаление пустых бизнесов
+function cleanupEmptyBusinesses() {
+  const initialCount = gameState.stage2.businesses.length;
+  
+  // Удаляем бизнесы с пустыми названиями и нулевым денежным потоком
+  gameState.stage2.businesses = gameState.stage2.businesses.filter(business => {
+    const hasName = business.name && business.name.trim() !== '';
+    const hasCashFlow = parseFloat(business.monthlyCashFlow) > 0;
+    return hasName || hasCashFlow;
+  });
+  
+  const removedCount = initialCount - gameState.stage2.businesses.length;
+  
+  if (removedCount > 0) {
+    log(`Удалено ${removedCount} пустых бизнесов`);
+    // Пересчитываем текущий доход
+    calculateStage2CurrentIncome();
+    // Обновляем отображение
+    updateStage2Display();
+    // Сохраняем изменения
+    // Очищаем пустые бизнесы
+    cleanupEmptyBusinesses();
+    saveGame();
+  }
+}
+
+// Делаем функцию глобально доступной
+window.cleanupEmptyBusinesses = cleanupEmptyBusinesses;
+
+
+// Удаление строки бизнеса
+function removeBusinessRow(businessId) {
+  const row = document.getElementById(`business-row-${businessId}`);
+  if (row) {
+    row.remove();
+    removeBusiness(businessId);
+    log('Удалена строка бизнеса', { businessId });
+  }
+}
+
+// Делаем функцию глобально доступной
+window.removeBusinessRow = removeBusinessRow;
 
