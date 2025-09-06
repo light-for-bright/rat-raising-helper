@@ -865,3 +865,258 @@ h6 {
         background: #a8a8a8;
     }
 }
+
+/* Исправления контрастности для мобильных устройств */
+
+/* Улучшенная контрастность текста */
+body {
+    color: #212529 !important;
+    background-color: #ffffff !important;
+}
+
+/* Улучшенная контрастность для заголовков */
+h1, h2, h3, h4, h5, h6 {
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+
+/* Улучшенная контрастность для карточек */
+.card {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.card-header {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.card-body {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* Улучшенная контрастность для форм */
+.form-control {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #ced4da !important;
+}
+
+.form-control:focus {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+.form-label {
+    color: #212529 !important;
+    font-weight: 600 !important;
+}
+
+/* Улучшенная контрастность для кнопок */
+.btn {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+.btn-primary {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+}
+
+.btn-success {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: #ffffff !important;
+}
+
+.btn-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #ffffff !important;
+}
+
+/* Улучшенная контрастность для таблиц */
+.table {
+    color: #212529 !important;
+    background-color: #ffffff !important;
+}
+
+.table th {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.table td {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+/* Улучшенная контрастность для навигации */
+.nav-tabs {
+    background-color: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.nav-tabs .nav-link {
+    color: #495057 !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #495057 !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.nav-tabs .nav-link.disabled {
+    color: #6c757d !important;
+    background-color: rgba(108, 117, 125, 0.1) !important;
+}
+
+/* Улучшенная контрастность для рассчитанных полей */
+.calculated-field {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+    font-weight: 600 !important;
+}
+
+/* Улучшенная контрастность для информационных блоков */
+.alert {
+    color: #212529 !important;
+}
+
+.alert-info {
+    background-color: #d1ecf1 !important;
+    border-color: #bee5eb !important;
+    color: #0c5460 !important;
+}
+
+.alert-success {
+    background-color: #d1e7dd !important;
+    border-color: #badbcc !important;
+    color: #0f5132 !important;
+}
+
+.alert-warning {
+    background-color: #fff3cd !important;
+    border-color: #ffecb5 !important;
+    color: #664d03 !important;
+}
+
+.alert-danger {
+    background-color: #f8d7da !important;
+    border-color: #f5c2c7 !important;
+    color: #842029 !important;
+}
+
+/* Улучшенная контрастность для текста */
+.text-muted {
+    color: #6c757d !important;
+}
+
+.text-success {
+    color: #198754 !important;
+    font-weight: 600 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    font-weight: 600 !important;
+}
+
+.text-info {
+    color: #0dcaf0 !important;
+    font-weight: 600 !important;
+}
+
+/* Дополнительные улучшения для мобильных */
+@media (max-width: 768px) {
+    /* Увеличиваем контрастность на мобильных */
+    body {
+        color: #000000 !important;
+    }
+    
+    .card {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .form-control {
+        border-width: 1px !important;
+        border-color: #ced4da !important;
+    }
+    
+    .form-control:focus {
+        border-width: 2px !important;
+        border-color: #0d6efd !important;
+    }
+    
+    .btn {
+        border-width: 1px !important;
+        font-weight: 600 !important;
+    }
+    
+    .table th {
+        background-color: #e9ecef !important;
+        color: #000000 !important;
+        font-weight: 700 !important;
+    }
+    
+    .table td {
+        color: #000000 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Еще больше контрастности для маленьких экранов */
+    body {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+    
+    .card {
+        border-width: 1px !important;
+        border-color: #adb5bd !important;
+    }
+    
+    .form-control {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #adb5bd !important;
+    }
+    
+    .btn {
+        font-weight: 600 !important;
+        text-shadow: none !important;
+    }
+    
+    .nav-tabs .nav-link {
+        color: #000000 !important;
+        font-weight: 500 !important;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: #000000 !important;
+        font-weight: 700 !important;
+    }
+}
