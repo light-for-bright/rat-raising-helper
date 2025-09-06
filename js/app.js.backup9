@@ -1,0 +1,649 @@
+// Основная логика приложения
+
+// Инициализация приложения
+function initApp() {
+  log('Инициализация приложения');
+  
+  // Загружаем сохраненную игру
+  const gameLoaded = loadGame();
+  
+  if (gameLoaded) {
+    log('Игра загружена из LocalStorage');
+  } else {
+    log('Создана новая игра');
+    saveGame(); // Сохраняем начальное состояние
+  }
+  
+  // Обновляем видимость вкладок
+  updateTabVisibility();
+  
+  // Инициализируем обработчики событий
+  initEventHandlers();
+  
+  // Загружаем данные в поля
+  loadDataToFields();
+  
+  // Выполняем первоначальный пересчет
+  if (typeof recalculateAll === 'function') {
+    recalculateAll();
+  }
+  
+  log('Приложение инициализировано');
+}
+
+// Обновление видимости вкладок
+function updateTabVisibility() {
+  const stage2Tab = document.getElementById('stage2-tab');
+  if (stage2Tab) {
+    if (gameState.stage2Unlocked) {
+      stage2Tab.classList.remove('disabled');
+      stage2Tab.style.pointerEvents = 'auto';
+    } else {
+      stage2Tab.classList.add('disabled');
+      stage2Tab.style.pointerEvents = 'none';
+    }
+  }
+}
+
+// Загрузка данных в поля формы
+function loadDataToFields() {
+  // Информационные поля
+  document.getElementById('profession').value = gameState.profession || '';
+  document.getElementById('dream').value = gameState.dream || '';
+  document.getElementById('auditor').value = gameState.auditor || '';
+  
+  // Доходы
+  document.getElementById('salary').value = gameState.income.salary || '';
+  
+  // Расходы
+  document.getElementById('taxes').value = gameState.expenses.taxes || '';
+  document.getElementById('house-mortgage').value = gameState.expenses.houseMortgage || '';
+  document.getElementById('education-loan').value = gameState.expenses.educationLoan || '';
+  document.getElementById('car-loan').value = gameState.expenses.carLoan || '';
+  document.getElementById('credit-cards').value = gameState.expenses.creditCards || '';
+  document.getElementById('other-expenses').value = gameState.expenses.otherExpenses || '';
+  document.getElementById('bank-loan').value = gameState.expenses.bankLoan || '';
+  document.getElementById('children-expenses').value = gameState.expenses.childrenExpenses || '';
+  document.getElementById('children-count').value = gameState.expenses.childrenCount || '';
+  
+  // Активы
+  document.getElementById('savings').value = gameState.assets.savings || '';
+  document.getElementById('precious-metals').value = gameState.assets.preciousMetals || '';
+  
+  // Пассивы
+  document.getElementById('house-mortgage-liability').value = gameState.liabilities.houseMortgage || '';
+  document.getElementById('education-loan-liability').value = gameState.liabilities.educationLoan || '';
+  document.getElementById('car-loan-liability').value = gameState.liabilities.carLoan || '';
+  document.getElementById('credit-cards-liability').value = gameState.liabilities.creditCards || '';
+  document.getElementById('bank-loan-liability').value = gameState.liabilities.bankLoan || '';
+  
+  // Загружаем таблицы
+  loadTableData();
+}
+
+// Загрузка данных в таблицы
+function loadTableData() {
+  // Таблица доходов от недвижимости/бизнеса
+  loadRealEstateIncomeTable();
+  
+  // Таблица акций
+  loadStocksTable();
+  
+  // Таблица активов недвижимости/бизнеса
+  loadRealEstateAssetsTable();
+  
+  // Таблица пассивов недвижимости/бизнеса
+  loadRealEstateLiabilitiesTable();
+}
+
+// Загрузка таблицы доходов от недвижимости/бизнеса
+function loadRealEstateIncomeTable() {
+  const table = document.getElementById('real-estate-income-table').getElementsByTagName('tbody')[0];
+  table.innerHTML = '';
+  
+  if (gameState.income.realEstateBusiness && gameState.income.realEstateBusiness.length > 0) {
+    gameState.income.realEstateBusiness.forEach((item, index) => {
+      addRealEstateIncomeRow(item.name, item.monthlyIncome, index);
+    });
+  } else {
+    addRealEstateIncomeRow();
+  }
+}
+
+// Загрузка таблицы акций
+function loadStocksTable() {
+  const table = document.getElementById('stocks-table').getElementsByTagName('tbody')[0];
+  table.innerHTML = '';
+  
+  if (gameState.assets.stocks && gameState.assets.stocks.length > 0) {
+    gameState.assets.stocks.forEach((stock, index) => {
+      addStockRow(stock.name, stock.quantity, stock.price, index);
+    });
+  } else {
+    addStockRow();
+  }
+}
+
+// Загрузка таблицы активов недвижимости/бизнеса
+function loadRealEstateAssetsTable() {
+  const table = document.getElementById('real-estate-assets-table').getElementsByTagName('tbody')[0];
+  table.innerHTML = '';
+  
+  if (gameState.assets.realEstateBusiness && gameState.assets.realEstateBusiness.length > 0) {
+    gameState.assets.realEstateBusiness.forEach((item, index) => {
+      addRealEstateAssetRow(item.name, item.downPayment, item.price, index);
+    });
+  } else {
+    addRealEstateAssetRow();
+  }
+}
+
+// Загрузка таблицы пассивов недвижимости/бизнеса
+function loadRealEstateLiabilitiesTable() {
+  const table = document.getElementById('real-estate-liabilities-table').getElementsByTagName('tbody')[0];
+  table.innerHTML = '';
+  
+  if (gameState.liabilities.realEstateBusiness && gameState.liabilities.realEstateBusiness.length > 0) {
+    gameState.liabilities.realEstateBusiness.forEach((item, index) => {
+      addRealEstateLiabilityRow(item.name, item.mortgage, index);
+    });
+  } else {
+    addRealEstateLiabilityRow();
+  }
+}
+
+// ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ РАБОТЫ С ТАБЛИЦАМИ
+
+// Функции для добавления строк в таблицы
+function addRealEstateIncomeRow(name = '', monthlyIncome = '', index = null) {
+  const table = document.getElementById('real-estate-income-table').getElementsByTagName('tbody')[0];
+  const row = table.insertRow();
+  
+  row.innerHTML = `
+    <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateRealEstateIncome(${index || table.rows.length - 1}, this.value, 'name')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${monthlyIncome}" placeholder="0" onchange="updateRealEstateIncome(${index || table.rows.length - 1}, this.value, 'monthlyIncome')"></td>
+    <td>
+      <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateIncomeRow()">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateIncomeRow(${index || table.rows.length - 1})">-</button>
+    </td>
+  `;
+  
+  if (index === null) {
+    // Добавляем новый элемент в gameState
+    if (!gameState.income.realEstateBusiness) {
+      gameState.income.realEstateBusiness = [];
+    }
+    gameState.income.realEstateBusiness.push({ name: '', monthlyIncome: 0 });
+    log('Добавлена новая строка в таблицу доходов от недвижимости/бизнеса');
+  }
+}
+
+function addStockRow(name = '', quantity = '', price = '', index = null) {
+  const table = document.getElementById('stocks-table').getElementsByTagName('tbody')[0];
+  const row = table.insertRow();
+  
+  row.innerHTML = `
+    <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateStock(${index || table.rows.length - 1}, this.value, 'name')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${quantity}" placeholder="0" onchange="updateStock(${index || table.rows.length - 1}, this.value, 'quantity')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${price}" placeholder="0" onchange="updateStock(${index || table.rows.length - 1}, this.value, 'price')"></td>
+    <td><span class="form-control-plaintext small">${formatCurrency((parseFloat(quantity) || 0) * (parseFloat(price) || 0))}</span></td>
+    <td>
+      <button type="button" class="btn btn-sm btn-success me-1" onclick="addStockRow()">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeStockRow(${index || table.rows.length - 1})">-</button>
+    </td>
+  `;
+  
+  if (index === null) {
+    // Добавляем новый элемент в gameState
+    if (!gameState.assets.stocks) {
+      gameState.assets.stocks = [];
+    }
+    gameState.assets.stocks.push({ name: '', quantity: 0, price: 0 });
+    log('Добавлена новая строка в таблицу акций');
+  }
+}
+
+function addRealEstateAssetRow(name = '', downPayment = '', price = '', index = null) {
+  const table = document.getElementById('real-estate-assets-table').getElementsByTagName('tbody')[0];
+  const row = table.insertRow();
+  
+  row.innerHTML = `
+    <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'name')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${downPayment}" placeholder="0" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'downPayment')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${price}" placeholder="0" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'price')"></td>
+    <td>
+      <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateAssetRow()">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateAssetRow(${index || table.rows.length - 1})">-</button>
+    </td>
+  `;
+  
+  if (index === null) {
+    // Добавляем новый элемент в gameState
+    if (!gameState.assets.realEstateBusiness) {
+      gameState.assets.realEstateBusiness = [];
+    }
+    gameState.assets.realEstateBusiness.push({ name: '', downPayment: 0, price: 0 });
+    log('Добавлена новая строка в таблицу активов недвижимости/бизнеса');
+  }
+}
+
+function addRealEstateLiabilityRow(name = '', mortgage = '', index = null) {
+  const table = document.getElementById('real-estate-liabilities-table').getElementsByTagName('tbody')[0];
+  const row = table.insertRow();
+  
+  row.innerHTML = `
+    <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateRealEstateLiability(${index || table.rows.length - 1}, this.value, 'name')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${mortgage}" placeholder="0" onchange="updateRealEstateLiability(${index || table.rows.length - 1}, this.value, 'mortgage')"></td>
+    <td>
+      <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateLiabilityRow()">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateLiabilityRow(${index || table.rows.length - 1})">-</button>
+    </td>
+  `;
+  
+  if (index === null) {
+    // Добавляем новый элемент в gameState
+    if (!gameState.liabilities.realEstateBusiness) {
+      gameState.liabilities.realEstateBusiness = [];
+    }
+    gameState.liabilities.realEstateBusiness.push({ name: '', mortgage: 0 });
+    log('Добавлена новая строка в таблицу пассивов недвижимости/бизнеса');
+  }
+}
+
+// Функции обновления данных в таблицах
+function updateRealEstateIncome(index, value, field) {
+  if (gameState.income.realEstateBusiness && gameState.income.realEstateBusiness[index]) {
+    if (field === 'monthlyIncome') {
+      gameState.income.realEstateBusiness[index][field] = parseFloat(value) || 0;
+    } else {
+      gameState.income.realEstateBusiness[index][field] = value;
+    }
+    recalculateAll();
+  }
+}
+
+function updateStock(index, value, field) {
+  if (gameState.assets.stocks && gameState.assets.stocks[index]) {
+    if (field === 'quantity' || field === 'price') {
+      gameState.assets.stocks[index][field] = parseFloat(value) || 0;
+    } else {
+      gameState.assets.stocks[index][field] = value;
+    }
+    recalculateAll();
+  }
+}
+
+function updateRealEstateAsset(index, value, field) {
+  if (gameState.assets.realEstateBusiness && gameState.assets.realEstateBusiness[index]) {
+    if (field === 'downPayment' || field === 'price') {
+      gameState.assets.realEstateBusiness[index][field] = parseFloat(value) || 0;
+    } else {
+      gameState.assets.realEstateBusiness[index][field] = value;
+    }
+    recalculateAll();
+  }
+}
+
+function updateRealEstateLiability(index, value, field) {
+  if (gameState.liabilities.realEstateBusiness && gameState.liabilities.realEstateBusiness[index]) {
+    if (field === 'mortgage') {
+      gameState.liabilities.realEstateBusiness[index][field] = parseFloat(value) || 0;
+    } else {
+      gameState.liabilities.realEstateBusiness[index][field] = value;
+    }
+    recalculateAll();
+  }
+}
+
+// Функции удаления строк
+function removeRealEstateIncomeRow(index) {
+  if (gameState.income.realEstateBusiness && gameState.income.realEstateBusiness.length > index) {
+    gameState.income.realEstateBusiness.splice(index, 1);
+    loadRealEstateIncomeTable();
+    recalculateAll();
+    log('Удалена строка из таблицы доходов от недвижимости/бизнеса');
+  }
+}
+
+function removeStockRow(index) {
+  if (gameState.assets.stocks && gameState.assets.stocks.length > index) {
+    gameState.assets.stocks.splice(index, 1);
+    loadStocksTable();
+    recalculateAll();
+    log('Удалена строка из таблицы акций');
+  }
+}
+
+function removeRealEstateAssetRow(index) {
+  if (gameState.assets.realEstateBusiness && gameState.assets.realEstateBusiness.length > index) {
+    gameState.assets.realEstateBusiness.splice(index, 1);
+    loadRealEstateAssetsTable();
+    recalculateAll();
+    log('Удалена строка из таблицы активов недвижимости/бизнеса');
+  }
+}
+
+function removeRealEstateLiabilityRow(index) {
+  if (gameState.liabilities.realEstateBusiness && gameState.liabilities.realEstateBusiness.length > index) {
+    gameState.liabilities.realEstateBusiness.splice(index, 1);
+    loadRealEstateLiabilitiesTable();
+    recalculateAll();
+    log('Удалена строка из таблицы пассивов недвижимости/бизнеса');
+  }
+}
+
+// Инициализация обработчиков событий
+function initEventHandlers() {
+  // Обработчик для кнопки сброса игры
+  const resetButton = document.getElementById('reset-game-btn');
+  if (resetButton) {
+    resetButton.addEventListener('click', function() {
+      if (confirm('Вы уверены, что хотите сбросить игру? Все данные будут потеряны.')) {
+        resetGame();
+        location.reload(); // Перезагружаем страницу
+      }
+    });
+  }
+  
+  // Обработчик для автоматического сохранения и пересчета при изменении данных
+  document.addEventListener('input', function(event) {
+    // Сохраняем игру при любом изменении в полях ввода
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+      // Обновляем соответствующее поле в gameState
+      updateGameStateFromInput(event.target);
+      
+      // Выполняем пересчет
+      if (typeof recalculateAll === 'function') {
+        recalculateAll();
+      }
+    }
+  });
+  
+  log('Обработчики событий инициализированы');
+}
+
+// Обновление состояния игры из поля ввода
+function updateGameStateFromInput(inputElement) {
+  const id = inputElement.id;
+  const value = inputElement.value;
+  
+  // Маппинг полей ввода на свойства gameState
+  const fieldMapping = {
+    'profession': 'profession',
+    'dream': 'dream',
+    'auditor': 'auditor',
+    'salary': 'income.salary',
+    'taxes': 'expenses.taxes',
+    'house-mortgage': 'expenses.houseMortgage',
+    'education-loan': 'expenses.educationLoan',
+    'car-loan': 'expenses.carLoan',
+    'credit-cards': 'expenses.creditCards',
+    'other-expenses': 'expenses.otherExpenses',
+    'bank-loan': 'expenses.bankLoan',
+    'children-expenses': 'expenses.childrenExpenses',
+    'children-count': 'expenses.childrenCount',
+    'savings': 'assets.savings',
+    'precious-metals': 'assets.preciousMetals',
+    'house-mortgage-liability': 'liabilities.houseMortgage',
+    'education-loan-liability': 'liabilities.educationLoan',
+    'car-loan-liability': 'liabilities.carLoan',
+    'credit-cards-liability': 'liabilities.creditCards',
+    'bank-loan-liability': 'liabilities.bankLoan',
+    'initial-balance': 'cashFlow.initialBalance'
+  };
+  
+  const fieldPath = fieldMapping[id];
+  if (fieldPath) {
+    const numValue = parseFloat(value) || 0;
+    
+    if (fieldPath.includes('.')) {
+      const [parent, child] = fieldPath.split('.');
+      gameState[parent][child] = numValue;
+      
+      // Специальная логика для банковского кредита
+      if (id === 'bank-loan-liability') {
+        updateBankLoanExpense(numValue);
+      }
+      
+      // Специальная логика для количества детей
+      if (id === 'children-count') {
+        updateChildrenExpenses();
+      }
+      
+      // Специальная логика для расходов на одного ребенка
+      if (id === 'children-expenses') {
+        updateChildrenExpenses();
+      }
+    } else {
+      gameState[fieldPath] = value;
+    }
+    
+    log(`Обновлено поле ${fieldPath}:`, value);
+  }
+}
+
+// Функция для обновления расходов по банковскому кредиту
+function updateBankLoanExpense(bankLoanAmount) {
+  // 10% от суммы банковского кредита идет в расходы
+  const bankLoanExpense = bankLoanAmount * GAME_CONFIG.BANK_LOAN_RATE;
+  gameState.expenses.bankLoan = bankLoanExpense;
+  
+  // Обновляем поле в UI
+  const bankLoanExpenseField = document.getElementById('bank-loan');
+  if (bankLoanExpenseField) {
+    bankLoanExpenseField.value = bankLoanExpense;
+  }
+  
+  log(`Обновлены расходы по банковскому кредиту: ${bankLoanExpense} ₽ (10% от ${bankLoanAmount} ₽)`);
+}
+
+// Функция для обновления расходов на детей
+function updateChildrenExpenses() {
+  log("Обновление расходов на детей");
+  const childrenCount = Math.min(Math.max(parseInt(gameState.expenses.childrenCount) || 0, 0), 3); // Ограничиваем от 0 до 3
+  const expensesPerChild = parseFloat(gameState.expenses.childrenExpenses) || 0;
+  const totalChildrenExpenses = childrenCount * expensesPerChild;
+  
+  // Обновляем количество детей в gameState (с ограничением)
+  gameState.expenses.childrenCount = childrenCount;
+  
+  // Обновляем поле количества детей в UI
+  const childrenCountField = document.getElementById('children-count');
+  if (childrenCountField) {
+    childrenCountField.value = childrenCount;
+  }
+  
+  log(`Обновлены расходы на детей: ${expensesPerChild} ₽ × ${childrenCount} = ${totalChildrenExpenses} ₽`);
+}
+
+// Функция для обновления состояния игры
+function updateGameState() {
+  saveGame();
+  updateTabVisibility();
+  
+  // Выполняем пересчет
+  if (typeof recalculateAll === 'function') {
+    recalculateAll();
+  }
+}
+
+// Запуск приложения при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+  initApp();
+});
+
+// Функции для работы с бланком учета денежных средств
+
+// Добавление строки транзакции
+function addTransactionRow() {
+  const tbody = document.getElementById("transactions-table-body");
+  const transactionId = Date.now().toString();
+  
+  const row = document.createElement("tr");
+  row.id = `transaction-row-${transactionId}`;
+  row.innerHTML = `
+    <td>
+      <input type="number" class="form-control form-control-sm" id="transaction-amount-${transactionId}" placeholder="0" step="0.01">
+    </td>
+    <td>
+      <div class="btn-group btn-group-sm" role="group">
+        <input type="radio" class="btn-check" name="transaction-type-${transactionId}" id="income-${transactionId}" value="income" autocomplete="off">
+        <label class="btn btn-outline-success" for="income-${transactionId}" title="Доход">➕</label>
+        
+        <input type="radio" class="btn-check" name="transaction-type-${transactionId}" id="expense-${transactionId}" value="expense" autocomplete="off">
+        <label class="btn btn-outline-danger" for="expense-${transactionId}" title="Расход">➖</label>
+      </div>
+    </td>
+    <td>
+      <input type="text" class="form-control form-control-sm" id="transaction-description-${transactionId}" placeholder="Описание операции">
+    </td>
+    <td>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTransactionRow('${transactionId}')" title="Удалить">
+        <i class="bi bi-trash"></i>
+      </button>
+    </td>
+  `;
+  
+  tbody.appendChild(row);
+  
+  // Добавляем обработчики событий
+  const amountInput = document.getElementById(`transaction-amount-${transactionId}`);
+  const typeInputs = document.querySelectorAll(`input[name="transaction-type-${transactionId}"]`);
+  const descriptionInput = document.getElementById(`transaction-description-${transactionId}`);
+  
+  amountInput.addEventListener("input", () => updateTransactionFromUI(transactionId));
+  typeInputs.forEach(input => {
+    input.addEventListener("change", () => updateTransactionFromUI(transactionId));
+  });
+  descriptionInput.addEventListener("input", () => updateTransactionFromUI(transactionId));
+  
+  // Автоматически добавляем новую строку при заполнении текущей
+  amountInput.addEventListener("blur", () => {
+    if (amountInput.value && !document.getElementById(`transaction-amount-${Date.now() + 1}`)) {
+      addTransactionRow();
+    }
+  });
+  
+  log("Добавлена строка транзакции", { transactionId });
+}
+
+// Удаление строки транзакции
+function removeTransactionRow(transactionId) {
+  const row = document.getElementById(`transaction-row-${transactionId}`);
+  if (row) {
+    row.remove();
+    removeTransaction(transactionId);
+    log('Удалена строка транзакции', { transactionId });
+  }
+}
+
+// Обновление транзакции
+function updateTransactionFromUI(transactionId) {
+  const amount = document.getElementById(`transaction-amount-${transactionId}`)?.value;
+  const typeInput = document.querySelector(`input[name="transaction-type-${transactionId}"]:checked`);
+  const type = typeInput?.value;
+  const description = document.getElementById(`transaction-description-${transactionId}`)?.value;
+  
+  if (amount && type) {
+    updateTransaction(transactionId, amount, type, description);
+    
+    // Обновляем отображение баланса
+    document.getElementById("current-balance").textContent = formatCurrency(gameState.cashFlow.currentBalance);
+  }
+}
+
+// Обновление стартового капитала
+function updateStartingCapital() {
+  const savings = parseFloat(document.getElementById('cashflow-savings')?.value) || 0;
+  const monthlyCashFlow = parseFloat(document.getElementById('cashflow-monthly-cashflow')?.value) || 0;
+  
+  gameState.cashFlow.savings = savings;
+  gameState.cashFlow.monthlyCashFlow = monthlyCashFlow;
+  
+  calculateStartingCapital();
+  calculateCurrentBalance();
+  
+  // Обновляем UI
+  document.getElementById('starting-capital').textContent = formatCurrency(gameState.cashFlow.startingCapital);
+  document.getElementById('current-balance').textContent = formatCurrency(gameState.cashFlow.currentBalance);
+  
+  saveGame();
+  log('Стартовый капитал обновлен', { savings, monthlyCashFlow, startingCapital: gameState.cashFlow.startingCapital });
+}
+
+// Инициализация бланка учета денежных средств
+function initCashFlowTab() {
+  // Загружаем данные в поля
+  document.getElementById('cashflow-savings').value = gameState.cashFlow.savings || '';
+  document.getElementById('cashflow-monthly-cashflow').value = gameState.cashFlow.monthlyCashFlow || '';
+  
+  // Обновляем отображение
+  document.getElementById('starting-capital').textContent = formatCurrency(gameState.cashFlow.startingCapital);
+  document.getElementById('current-balance').textContent = formatCurrency(gameState.cashFlow.currentBalance);
+  
+  // Добавляем обработчики событий
+  document.getElementById('cashflow-savings').addEventListener('input', updateStartingCapital);
+  document.getElementById('cashflow-monthly-cashflow').addEventListener('input', updateStartingCapital);
+  
+  // Загружаем существующие транзакции
+  renderTransactions();
+  
+  log('Вкладка бланка учета денежных средств инициализирована');
+}
+
+// Отображение транзакций в таблице
+function renderTransactions() {
+  const tbody = document.getElementById("transactions-table-body");
+  tbody.innerHTML = "";
+  
+  gameState.cashFlow.transactions.forEach(transaction => {
+    const row = document.createElement("tr");
+    row.id = `transaction-row-${transaction.id}`;
+    row.innerHTML = `
+      <td>
+        <input type="number" class="form-control form-control-sm" id="transaction-amount-${transaction.id}" value="${transaction.amount}" step="0.01">
+      </td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <input type="radio" class="btn-check" name="transaction-type-${transaction.id}" id="income-${transaction.id}" value="income" autocomplete="off" ${transaction.type === "income" ? "checked" : ""}>
+          <label class="btn btn-outline-success" for="income-${transaction.id}" title="Доход">➕</label>
+          
+          <input type="radio" class="btn-check" name="transaction-type-${transaction.id}" id="expense-${transaction.id}" value="expense" autocomplete="off" ${transaction.type === "expense" ? "checked" : ""}>
+          <label class="btn btn-outline-danger" for="expense-${transaction.id}" title="Расход">➖</label>
+        </div>
+      </td>
+      <td>
+        <input type="text" class="form-control form-control-sm" id="transaction-description-${transaction.id}" value="${transaction.description}">
+      </td>
+      <td>
+        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTransactionRow('${transaction.id}')" title="Удалить">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    `;
+    
+    tbody.appendChild(row);
+    
+    // Добавляем обработчики событий
+    const amountInput = document.getElementById(`transaction-amount-${transaction.id}`);
+    const typeInputs = document.querySelectorAll(`input[name="transaction-type-${transaction.id}"]`);
+    const descriptionInput = document.getElementById(`transaction-description-${transaction.id}`);
+    
+    amountInput.addEventListener("input", () => updateTransactionFromUI(transaction.id));
+    typeInputs.forEach(input => {
+      input.addEventListener("change", () => updateTransactionFromUI(transaction.id));
+    });
+    descriptionInput.addEventListener("input", () => updateTransactionFromUI(transaction.id));
+  });
+  
+  // Добавляем пустую строку для новых транзакций
+  addTransactionRow();
+}
+
+// Делаем функции глобально доступными
+window.addTransactionRow = addTransactionRow;
+window.removeTransactionRow = removeTransactionRow;
+window.updateTransactionFromUI = updateTransactionFromUI;
+window.updateStartingCapital = updateStartingCapital;
+window.initCashFlowTab = initCashFlowTab;
+

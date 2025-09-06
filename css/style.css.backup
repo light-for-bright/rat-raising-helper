@@ -1,0 +1,49 @@
+/* Основные стили */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* Стили для вкладок */
+.nav-tabs .nav-link.disabled {
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Стили для форм и таблиц */
+.form-control, .form-select {
+    margin-bottom: 0.5rem;
+}
+
+.table {
+    margin-top: 1rem;
+}
+
+/* Стили для рассчитанных полей */
+.calculated-field {
+    font-weight: bold;
+    color: #28a745;
+    background-color: #d4edda;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Стили для заголовков */
+h1 {
+    color: #343a40;
+    font-weight: 600;
+}
+
+h2 {
+    color: #495057;
+    margin-bottom: 1.5rem;
+}
+
+/* Стили для информационных сообщений */
+.text-muted {
+    font-style: italic;
+}

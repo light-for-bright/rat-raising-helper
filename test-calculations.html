@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест расчетов - Крысиные бега</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Тест автоматических расчетов</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Ввод данных</h3>
+                
+                <div class="mb-3">
+                    <label for="profession" class="form-label">Профессия:</label>
+                    <input type="text" class="form-control" id="profession" placeholder="Введите профессию">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Зарплата:</label>
+                    <input type="number" class="form-control" id="salary" placeholder="0">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="taxes" class="form-label">Налоги:</label>
+                    <input type="number" class="form-control" id="taxes" placeholder="0">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="house-mortgage" class="form-label">Ипотека (расход):</label>
+                    <input type="number" class="form-control" id="house-mortgage" placeholder="0">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="savings" class="form-label">Сбережения:</label>
+                    <input type="number" class="form-control" id="savings" placeholder="0">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="house-mortgage-liability" class="form-label">Ипотека (пассив):</label>
+                    <input type="number" class="form-control" id="house-mortgage-liability" placeholder="0">
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h3>Рассчитанные значения</h3>
+                
+                <div class="mb-3">
+                    <label class="form-label">Общие доходы:</label>
+                    <div id="total-income" class="form-control-plaintext fw-bold">0 ₽</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Общие расходы:</label>
+                    <div id="total-expenses" class="form-control-plaintext fw-bold">0 ₽</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Месячный денежный поток:</label>
+                    <div id="monthly-cash-flow" class="form-control-plaintext fw-bold">0 ₽</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Пассивный доход:</label>
+                    <div id="passive-income" class="form-control-plaintext fw-bold">0 ₽</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Общие пассивы:</label>
+                    <div id="total-liabilities" class="form-control-plaintext fw-bold">0 ₽</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Статус 2 этапа:</label>
+                    <div id="stage2-status" class="form-control-plaintext fw-bold">Заблокирован</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3>Действия</h3>
+                <button type="button" class="btn btn-primary mb-2" onclick="testRecalculate()">Пересчитать все</button>
+                <button type="button" class="btn btn-success mb-2" onclick="testSave()">Сохранить данные</button>
+                <button type="button" class="btn btn-warning mb-2" onclick="testReset()">Сбросить игру</button>
+                <button type="button" class="btn btn-info mb-2" onclick="showGameState()">Показать состояние</button>
+                <button type="button" class="btn btn-secondary mb-2" onclick="testStage2Conditions()">Проверить условия 2 этапа</button>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <h3>Консоль</h3>
+            <div id="console" class="bg-light p-3" style="height: 200px; overflow-y: auto; font-family: monospace;">
+                <div>Откройте консоль браузера (F12) для просмотра логов...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game-data.js"></script>
+    <script src="js/calculations.js"></script>
+    <script>
+        // Тестовые функции
+        function testRecalculate() {
+            if (typeof recalculateAll === 'function') {
+                recalculateAll();
+                addToConsole('Выполнен пересчет всех значений');
+                updateStage2Status();
+            } else {
+                addToConsole('ОШИБКА: функция recalculateAll не найдена');
+            }
+        }
+        
+        function testSave() {
+            saveGame();
+            addToConsole('Данные сохранены в LocalStorage');
+        }
+        
+        function testReset() {
+            resetGame();
+            // Очищаем поля
+            document.querySelectorAll('input').forEach(input => {
+                if (input.type === 'number') {
+                    input.value = '';
+                } else {
+                    input.value = '';
+                }
+            });
+            addToConsole('Игра сброшена к начальному состоянию');
+            testRecalculate();
+        }
+        
+        function showGameState() {
+            addToConsole('Текущее состояние игры:');
+            addToConsole(JSON.stringify(gameState, null, 2));
+        }
+        
+        function testStage2Conditions() {
+            if (typeof checkStage2Conditions === 'function') {
+                const canUnlock = checkStage2Conditions();
+                addToConsole(`Условия 2 этапа: ${canUnlock ? 'ВЫПОЛНЕНЫ' : 'НЕ ВЫПОЛНЕНЫ'}`);
+                updateStage2Status();
+            } else {
+                addToConsole('ОШИБКА: функция checkStage2Conditions не найдена');
+            }
+        }
+        
+        function updateStage2Status() {
+            const statusElement = document.getElementById('stage2-status');
+            if (statusElement) {
+                if (gameState.stage2Unlocked) {
+                    statusElement.textContent = 'РАЗБЛОКИРОВАН!';
+                    statusElement.className = 'form-control-plaintext fw-bold text-success';
+                } else {
+                    statusElement.textContent = 'Заблокирован';
+                    statusElement.className = 'form-control-plaintext fw-bold text-danger';
+                }
+            }
+        }
+        
+        function addToConsole(message) {
+            const console = document.getElementById('console');
+            const div = document.createElement('div');
+            div.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            console.appendChild(div);
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            addToConsole('Тестовая страница расчетов загружена');
+            loadGame();
+            
+            // Загружаем данные в поля
+            document.getElementById('profession').value = gameState.profession || '';
+            document.getElementById('salary').value = gameState.income.salary || '';
+            document.getElementById('taxes').value = gameState.expenses.taxes || '';
+            document.getElementById('house-mortgage').value = gameState.expenses.houseMortgage || '';
+            document.getElementById('savings').value = gameState.assets.savings || '';
+            document.getElementById('house-mortgage-liability').value = gameState.liabilities.houseMortgage || '';
+            
+            // Выполняем первоначальный пересчет
+            setTimeout(() => {
+                testRecalculate();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

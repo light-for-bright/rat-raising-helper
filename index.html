@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крысиные бега - Игра</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container-fluid mt-2">
+        <h1 class="text-center mb-3 h4">Крысиные бега</h1>
+        
+        <!-- Навигация по вкладкам -->
+        <ul class="nav nav-tabs nav-fill" id="gameTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="stage1-tab" data-bs-toggle="tab" href="#stage1">Отчет о доходах</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="cashflow-tab" data-bs-toggle="tab" href="#cashflow">Бланк учета</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" id="stage2-tab" data-bs-toggle="tab" href="#stage2">Скоростная дорожка</a>
+            </li>
+        </ul>
+
+        <!-- Содержимое вкладок -->
+        <div class="tab-content mt-3">
+            <!-- Вкладка 1: Отчет о доходах -->
+            <div class="tab-pane fade show active" id="stage1">
+                <h2 class="h5 mb-3">Отчет о доходах. 1 этап</h2>
+                
+                <!-- Информационные поля -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Информация о игроке</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-12 mb-2">
+                                        <label for="profession" class="form-label small">Профессия:</label>
+                                        <input type="text" class="form-control form-control-sm" id="profession" placeholder="Введите профессию">
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <label for="dream" class="form-label small">Мечта:</label>
+                                        <textarea class="form-control form-control-sm" id="dream" rows="2" placeholder="Опишите вашу мечту"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="auditor" class="form-label small">Аудитор:</label>
+                                        <input type="text" class="form-control form-control-sm" id="auditor" placeholder="Имя аудитора">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Рассчитанные значения -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Рассчитанные значения</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label class="form-label small">Общие доходы:</label>
+                                            <div id="total-income" class="form-control-plaintext fw-bold text-success small">0 ₽</div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label small">Общие расходы:</label>
+                                            <div id="total-expenses" class="form-control-plaintext fw-bold text-danger small">0 ₽</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label class="form-label small">Месячный денежный поток:</label>
+                                            <div id="monthly-cash-flow" class="form-control-plaintext fw-bold small">0 ₽</div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label small">Пассивный доход:</label>
+                                            <div id="passive-income" class="form-control-plaintext fw-bold text-info small">0 ₽</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Доходы -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Доходы</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="mb-2">
+                                    <label for="salary" class="form-label small">Зарплата:</label>
+                                    <input type="number" class="form-control form-control-sm" id="salary" placeholder="0">
+                                </div>
+                                
+                                <!-- Таблица недвижимости/бизнеса (доходы) -->
+                                <h6 class="small">Недвижимость/Бизнес (доходы)</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered" id="real-estate-income-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="small">Название</th>
+                                                <th class="small">Месячный доход</th>
+                                                <th class="small">Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control form-control-sm" placeholder="Название"></td>
+                                                <td><input type="number" class="form-control form-control-sm" placeholder="0"></td>
+                                                <td><button type="button" class="btn btn-sm btn-success" onclick="addRealEstateIncomeRow()">+</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Расходы -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Расходы</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label for="taxes" class="form-label small">Налоги:</label>
+                                            <input type="number" class="form-control form-control-sm" id="taxes" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="house-mortgage" class="form-label small">Ипотека (расход):</label>
+                                            <input type="number" class="form-control form-control-sm" id="house-mortgage" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="education-loan" class="form-label small">Образовательный кредит:</label>
+                                            <input type="number" class="form-control form-control-sm" id="education-loan" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="car-loan" class="form-label small">Автокредит:</label>
+                                            <input type="number" class="form-control form-control-sm" id="car-loan" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label for="credit-cards" class="form-label small">Кредитные карты:</label>
+                                            <input type="number" class="form-control form-control-sm" id="credit-cards" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="other-expenses" class="form-label small">Прочие расходы:</label>
+                                            <input type="number" class="form-control form-control-sm" id="other-expenses" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="bank-loan" class="form-label small">Банковский кредит (расход):</label>
+                                            <input type="number" class="form-control form-control-sm" id="bank-loan" placeholder="0" readonly>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="children-count" class="form-label small">Количество детей:</label>
+                                            <input type="number" class="form-control form-control-sm" id="children-count" placeholder="0" min="0" max="3">
+                                            <div class="form-text small">Максимум 3 детей</div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="children-expenses" class="form-label small">Расходы на одного ребенка:</label>
+                                            <input type="number" class="form-control form-control-sm" id="children-expenses" placeholder="0">
+                                            <div class="form-text small">Общие расходы = расходы на одного × количество</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Активы -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Активы</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label for="savings" class="form-label small">Сбережения:</label>
+                                            <input type="number" class="form-control form-control-sm" id="savings" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label for="precious-metals" class="form-label small">Драгоценные металлы:</label>
+                                            <input type="number" class="form-control form-control-sm" id="precious-metals" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Таблица акций -->
+                                <h6 class="small">Акции</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered" id="stocks-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="small">Название</th>
+                                                <th class="small">Кол-во</th>
+                                                <th class="small">Цена</th>
+                                                <th class="small">Стоимость</th>
+                                                <th class="small">Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control form-control-sm" placeholder="Название"></td>
+                                                <td><input type="number" class="form-control form-control-sm" placeholder="0"></td>
+                                                <td><input type="number" class="form-control form-control-sm" placeholder="0"></td>
+                                                <td><span class="form-control-plaintext small">0 ₽</span></td>
+                                                <td><button type="button" class="btn btn-sm btn-success" onclick="addStockRow()">+</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Таблица недвижимости/бизнеса (активы) -->
+                                <h6 class="small">Недвижимость/Бизнес (активы)</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered" id="real-estate-assets-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="small">Название</th>
+                                                <th class="small">Взнос</th>
+                                                <th class="small">Цена</th>
+                                                <th class="small">Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control form-control-sm" placeholder="Название"></td>
+                                                <td><input type="number" class="form-control form-control-sm" placeholder="0"></td>
+                                                <td><input type="number" class="form-control form-control-sm" placeholder="0"></td>
+                                                <td><button type="button" class="btn btn-sm btn-success" onclick="addRealEstateAssetRow()">+</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Пассивы -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Пассивы</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label for="house-mortgage-liability" class="form-label small">Ипотека (пассив):</label>
+                                            <input type="number" class="form-control form-control-sm" id="house-mortgage-liability" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="education-loan-liability" class="form-label small">Образовательный кредит:</label>
+                                            <input type="number" class="form-control form-control-sm" id="education-loan-liability" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="car-loan-liability" class="form-label small">Автокредит:</label>
+                                            <input type="number" class="form-control form-control-sm" id="car-loan-liability" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-2">
+                                            <label for="credit-cards-liability" class="form-label small">Кредитные карты:</label>
+                                            <input type="number" class="form-control form-control-sm" id="credit-cards-liability" placeholder="0">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="bank-loan-liability" class="form-label small">Банковский кредит (пассив):</label>
+                                            <input type="number" class="form-control form-control-sm" id="bank-loan-liability" placeholder="0">
+                                            <div class="form-text small">10% от суммы автоматически попадет в расходы</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Таблица ипотек от недвижимости/бизнеса -->
+                                <h6 class="small">Ипотеки от недвижимости/бизнеса</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-bordered" id="real-estate-liabilities-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="small">Название</th>
+                                                <th class="small">Сумма ипотеки</th>
+                                                <th class="small">Действия</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control form-control-sm" placeholder="Название"></td>
+                                                <td><input type="number" class="form-control form-control-sm" placeholder="0"></td>
+                                                <td><button type="button" class="btn btn-sm btn-success" onclick="addRealEstateLiabilityRow()">+</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопки управления -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="reset-game-btn">
+                                Сбросить игру
+                            </button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="recalculateAll()">
+                                Пересчитать все
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка 2: Бланк учета денежных средств -->
+            <div class="tab-pane fade" id="cashflow">
+                <h2 class="h5 mb-3">Бланк учета денежных средств</h2>
+                
+                <!-- Стартовый капитал -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="h6 mb-0">Стартовый капитал</h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label for="cashflow-savings" class="form-label small">Сбережения:</label>
+                                            <input type="number" class="form-control form-control-sm" id="cashflow-savings" placeholder="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label for="cashflow-monthly-cashflow" class="form-label small">Месячный денежный поток:</label>
+                                            <input type="number" class="form-control form-control-sm" id="cashflow-monthly-cashflow" placeholder="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <label class="form-label small">Стартовый капитал:</label>
+                                            <div id="starting-capital" class="form-control-plaintext fw-bold text-primary">0 ₽</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-2">
+                                            <div class="mb-2">
+                                                <label class="form-label small">Текущий баланс:</label>
+                                                <div id="current-balance" class="form-control-plaintext fw-bold text-success">0 ₽</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Таблица транзакций -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="h6 mb-0">Транзакции</h5>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addTransactionRow()">
+                            <i class="bi bi-plus"></i> Добавить
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="small" style="width: 80px;">Тип</th>
+                                        <th class="small">Сумма</th>
+                                        <th class="small" style="width: 60px;">Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactions-table-body">
+                                    <!-- Строки транзакций будут добавляться динамически -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка 3: Скоростная дорожка -->
+            <div class="tab-pane fade" id="stage2">
+                <h2 class="h5 mb-3">Скоростная дорожка. 2 этап</h2>
+                <p class="text-muted small">Эта вкладка будет разблокирована после выполнения условий 1 этапа</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript файлов -->
+    <script src="js/game-data.js?v=4"></script>
+    <script src="js/calculations.js?v=2"></script>
+    <script src="js/app.js?v=10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
