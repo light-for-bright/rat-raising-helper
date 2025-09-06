@@ -1,5 +1,6 @@
 /* Стили для игры "Крысиные бега" - Мобильная оптимизация */
 
+
 /* Общие стили */
 body {
     font-size: 16px;
@@ -675,17 +676,7 @@ h6 {
         white-space: nowrap;
     }
     
-    /* Добавляем индикатор прокрутки */
-    .table-responsive::after {
-        content: '← Прокрутите для просмотра →';
-        display: block;
-        text-align: center;
-        font-size: 0.7rem;
-        color: #6c757d;
-        padding: 0.25rem;
-        background-color: #f8f9fa;
-        border-top: 1px solid #dee2e6;
-    }
+
 }
 
 /* Улучшения для кнопок на мобильных */
@@ -786,8 +777,8 @@ h6 {
 * {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    perspective: 1000;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
 }
 
 /* Стили для лучшей работы с touch */
@@ -1951,4 +1942,198 @@ h1, h2, h3, h4, h5, h6 {
 .btn-group .btn-check:checked + .btn-outline-danger {
     border-width: 2px !important;
     box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Исправления для кнопок удаления в разделе активов */
+
+/* Специальные стили для кнопок в таблице активов недвижимости/бизнеса */
+#real-estate-assets-table .btn-danger {
+    color: #ffffff !important;
+    background-color: #495057 !important;
+    border-color: #495057 !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.5rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 0.25rem !important;
+}
+
+#real-estate-assets-table .btn-danger:hover {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+#real-estate-assets-table .btn-danger:active {
+    color: #ffffff !important;
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Специальные стили для кнопок добавления в таблице активов */
+#real-estate-assets-table .btn-success {
+    color: #ffffff !important;
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.5rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 0.25rem !important;
+}
+
+#real-estate-assets-table .btn-success:hover {
+    color: #ffffff !important;
+    background-color: #157347 !important;
+    border-color: #146c43 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(25, 135, 84, 0.3) !important;
+}
+
+#real-estate-assets-table .btn-success:active {
+    color: #ffffff !important;
+    background-color: #146c43 !important;
+    border-color: #13653f !important;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(25, 135, 84, 0.4) !important;
+}
+
+/* Адаптивность для мобильных устройств - делаем кнопки видимыми и удобными для нажатия */
+@media (max-width: 768px) {
+    #real-estate-assets-table .btn-danger,
+    #real-estate-assets-table .btn-success {
+        min-width: 36px !important;
+        min-height: 36px !important;
+        font-size: 0.8rem !important;
+        padding: 0.4rem 0.5rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 576px) {
+    #real-estate-assets-table .btn-danger,
+    #real-estate-assets-table .btn-success {
+        min-width: 32px !important;
+        min-height: 32px !important;
+        font-size: 0.75rem !important;
+        padding: 0.3rem 0.4rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/* Улучшения для touch-устройств */
+@media (hover: none) and (pointer: coarse) {
+    #real-estate-assets-table .btn-danger,
+    #real-estate-assets-table .btn-success {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        font-size: 0.9rem !important;
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    /* Убираем hover эффекты на touch устройствах */
+    #real-estate-assets-table .btn-danger:hover,
+    #real-estate-assets-table .btn-success:hover {
+        transform: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    }
+}
+
+/* Дополнительная видимость для кнопок в таблице активов */
+#real-estate-assets-table .btn {
+    text-shadow: none !important;
+    transition: all 0.15s ease-in-out !important;
+    border-width: 1px !important;
+}
+
+/* Улучшенная видимость для кнопок с эмодзи */
+#real-estate-assets-table .btn-danger:before,
+#real-estate-assets-table .btn-success:before {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 0;
+}
+
+/* Специальные стили для ячейки с кнопками */
+#real-estate-assets-table td:last-child {
+    text-align: center !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    padding: 0.5rem !important;
+    background-color: #f8f9fa !important;
+    border-left: 1px solid #dee2e6 !important;
+    position: relative !important;
+}
+
+/* Добавляем визуальный индикатор активности */
+#real-estate-assets-table td:last-child:hover {
+    background-color: #e9ecef !important;
+    cursor: default !important;
+}
+
+/* Особые стили для мобильных устройств */
+@media (max-width: 768px) {
+    #real-estate-assets-table td:last-child {
+        background-color: #ffffff !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 0.25rem !important;
+        padding: 0.5rem !important;
+    }
+    
+    #real-estate-assets-table td:last-child:hover {
+        background-color: #f8f9fa !important;
+    }
+}
+
+/* ПРИНУДИТЕЛЬНЫЕ СТИЛИ ДЛЯ ОТЛАДКИ - максимальный приоритет */
+#real-estate-assets-table button.btn {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    z-index: 999 !important;
+    pointer-events: auto !important;
+}
+
+#real-estate-assets-table .btn-success {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: #ffffff !important;
+}
+
+#real-estate-assets-table .btn-danger {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #ffffff !important;
+}
+
+/* Принудительно показываем ячейку с кнопками */
+#real-estate-assets-table td:last-child {
+    display: table-cell !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
 }

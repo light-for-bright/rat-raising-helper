@@ -2,6 +2,7 @@
 
 // Инициализация приложения
 function initApp() {
+  console.log('🚀 [DEBUG] initApp started');
   log('Инициализация приложения');
   
   // Загружаем сохраненную игру
@@ -171,9 +172,9 @@ function addRealEstateIncomeRow(name = '', monthlyIncome = '', index = null) {
   row.innerHTML = `
     <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateRealEstateIncome(${index || table.rows.length - 1}, this.value, 'name')"></td>
     <td><input type="number" class="form-control form-control-sm" value="${monthlyIncome}" placeholder="0" onchange="updateRealEstateIncome(${index || table.rows.length - 1}, this.value, 'monthlyIncome')"></td>
-    <td>
-      <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateIncomeRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateIncomeRow(${index || table.rows.length - 1})">🗑️</button>
+    <td style="text-align: center; background-color: #f8f9fa; padding: 0.5rem;">
+      <button type="button" class="btn btn-sm btn-success" onclick="addRealEstateIncomeRow()" style="margin-right: 0.5rem; min-width: 40px; min-height: 40px; background-color: #198754 !important; color: white !important;">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateIncomeRow(${index || table.rows.length - 1})" style="min-width: 40px; min-height: 40px; background-color: #6c757d !important; color: white !important;">🗑️</button>
     </td>
   `;
   
@@ -196,9 +197,9 @@ function addStockRow(name = '', quantity = '', price = '', index = null) {
     <td><input type="number" class="form-control form-control-sm" value="${quantity}" placeholder="0" onchange="updateStock(${index || table.rows.length - 1}, this.value, 'quantity')"></td>
     <td><input type="number" class="form-control form-control-sm" value="${price}" placeholder="0" onchange="updateStock(${index || table.rows.length - 1}, this.value, 'price')"></td>
     <td><span class="form-control-plaintext small">${formatCurrency((parseFloat(quantity) || 0) * (parseFloat(price) || 0))}</span></td>
-    <td>
-      <button type="button" class="btn btn-sm btn-success me-1" onclick="addStockRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeStockRow(${index || table.rows.length - 1})">🗑️</button>
+    <td style="text-align: center; background-color: #f8f9fa; padding: 0.5rem;">
+      <button type="button" class="btn btn-sm btn-success" onclick="addStockRow()" style="margin-right: 0.5rem; min-width: 40px; min-height: 40px; background-color: #198754 !important; color: white !important;">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeStockRow(${index || table.rows.length - 1})" style="min-width: 40px; min-height: 40px; background-color: #6c757d !important; color: white !important;">🗑️</button>
     </td>
   `;
   
@@ -216,13 +217,15 @@ function addRealEstateAssetRow(name = '', downPayment = '', price = '', index = 
   const table = document.getElementById('real-estate-assets-table').getElementsByTagName('tbody')[0];
   const row = table.insertRow();
   
+  const actualIndex = index !== null ? index : table.rows.length - 1;
+  
   row.innerHTML = `
-    <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'name')"></td>
-    <td><input type="number" class="form-control form-control-sm" value="${downPayment}" placeholder="0" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'downPayment')"></td>
-    <td><input type="number" class="form-control form-control-sm" value="${price}" placeholder="0" onchange="updateRealEstateAsset(${index || table.rows.length - 1}, this.value, 'price')"></td>
-    <td>
-      <button type="button" class="btn btn-sm btn-success me-1" onclick="addRealEstateAssetRow()">+</button>
-      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateAssetRow(${index || table.rows.length - 1})">🗑️</button>
+    <td><input type="text" class="form-control form-control-sm" value="${name}" placeholder="Название" onchange="updateRealEstateAsset(${actualIndex}, this.value, 'name')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${downPayment}" placeholder="0" onchange="updateRealEstateAsset(${actualIndex}, this.value, 'downPayment')"></td>
+    <td><input type="number" class="form-control form-control-sm" value="${price}" placeholder="0" onchange="updateRealEstateAsset(${actualIndex}, this.value, 'price')"></td>
+    <td class="text-center" style="background-color: #f8f9fa; padding: 0.5rem;">
+      <button type="button" class="btn btn-sm btn-success" onclick="addRealEstateAssetRow()" title="Добавить строку" style="margin-right: 0.5rem; min-width: 40px; min-height: 40px; background-color: #198754 !important; color: white !important;">+</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="removeRealEstateAssetRow(${actualIndex})" title="Удалить строку" style="min-width: 40px; min-height: 40px; background-color: #6c757d !important; color: white !important;">🗑️</button>
     </td>
   `;
   
@@ -234,6 +237,8 @@ function addRealEstateAssetRow(name = '', downPayment = '', price = '', index = 
     gameState.assets.realEstateBusiness.push({ name: '', downPayment: 0, price: 0 });
     log('Добавлена новая строка в таблицу активов недвижимости/бизнеса');
   }
+  
+  log(`Создана строка активов с индексом ${actualIndex}, HTML:`, row.innerHTML);
 }
 
 function addRealEstateLiabilityRow(name = '', mortgage = '', index = null) {
@@ -283,14 +288,25 @@ function updateStock(index, value, field) {
 }
 
 function updateRealEstateAsset(index, value, field) {
-  if (gameState.assets.realEstateBusiness && gameState.assets.realEstateBusiness[index]) {
-    if (field === 'downPayment' || field === 'price') {
-      gameState.assets.realEstateBusiness[index][field] = parseFloat(value) || 0;
-    } else {
-      gameState.assets.realEstateBusiness[index][field] = value;
-    }
-    recalculateAll();
+  // Инициализируем массив, если он не существует
+  if (!gameState.assets.realEstateBusiness) {
+    gameState.assets.realEstateBusiness = [];
   }
+  
+  // Создаем элемент, если он не существует
+  if (!gameState.assets.realEstateBusiness[index]) {
+    gameState.assets.realEstateBusiness[index] = { name: '', downPayment: 0, price: 0 };
+  }
+  
+  // Обновляем значение
+  if (field === 'downPayment' || field === 'price') {
+    gameState.assets.realEstateBusiness[index][field] = parseFloat(value) || 0;
+  } else {
+    gameState.assets.realEstateBusiness[index][field] = value;
+  }
+  
+  recalculateAll();
+  log(`Обновлен актив недвижимости/бизнеса [${index}].${field}:`, value);
 }
 
 function updateRealEstateLiability(index, value, field) {
@@ -942,4 +958,62 @@ function removeBusinessRow(businessId) {
 
 // Делаем функцию глобально доступной
 window.removeBusinessRow = removeBusinessRow;
+
+// Функции навигации по таблицам для мобильных устройств
+
+// Прокрутка таблицы влево
+function scrollTableLeft(containerId) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    const scrollStep = 150; // Шаг прокрутки в пикселях
+    container.scrollBy({
+      left: -scrollStep,
+      behavior: 'smooth'
+    });
+    log(`Прокрутка таблицы ${containerId} влево на ${scrollStep}px`);
+  }
+}
+
+// Прокрутка таблицы вправо
+function scrollTableRight(containerId) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    const scrollStep = 150; // Шаг прокрутки в пикселях
+    container.scrollBy({
+      left: scrollStep,
+      behavior: 'smooth'
+    });
+    log(`Прокрутка таблицы ${containerId} вправо на ${scrollStep}px`);
+  }
+}
+
+// Прокрутка к началу таблицы
+function scrollTableToStart(containerId) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    container.scrollTo({
+      left: 0,
+      behavior: 'smooth'
+    });
+    log(`Прокрутка таблицы ${containerId} к началу`);
+  }
+}
+
+// Прокрутка к концу таблицы
+function scrollTableToEnd(containerId) {
+  const container = document.getElementById(containerId);
+  if (container) {
+    container.scrollTo({
+      left: container.scrollWidth,
+      behavior: 'smooth'
+    });
+    log(`Прокрутка таблицы ${containerId} к концу`);
+  }
+}
+
+// Делаем функции глобально доступными
+window.scrollTableLeft = scrollTableLeft;
+window.scrollTableRight = scrollTableRight;
+window.scrollTableToStart = scrollTableToStart;
+window.scrollTableToEnd = scrollTableToEnd;
 
