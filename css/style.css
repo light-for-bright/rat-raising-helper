@@ -331,3 +331,74 @@ h6 {
         font-size: 0.75rem;
     }
 }
+
+/* Стили валидации */
+.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: #dc3545;
+}
+
+/* Улучшенные стили для валидации на мобильных устройствах */
+@media (max-width: 768px) {
+    .invalid-feedback {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .invalid-feedback {
+        font-size: 0.65rem;
+    }
+}
+
+/* Стили для информационных блоков */
+.alert-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+.alert-sm .alert-heading {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.alert-sm ul {
+    margin-bottom: 0;
+    padding-left: 1rem;
+}
+
+.alert-sm li {
+    margin-bottom: 0.125rem;
+}
+
+/* Адаптивность для информационных блоков */
+@media (max-width: 768px) {
+    .alert-sm {
+        padding: 0.375rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .alert-sm .alert-heading {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .alert-sm {
+        padding: 0.25rem 0.375rem;
+        font-size: 0.7rem;
+    }
+    
+    .alert-sm .alert-heading {
+        font-size: 0.75rem;
+    }
+}

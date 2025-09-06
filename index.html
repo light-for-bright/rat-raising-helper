@@ -29,6 +29,17 @@
             <!-- Вкладка 1: Отчет о доходах -->
             <div class="tab-pane fade show active" id="stage1">
                 <h2 class="h5 mb-3">Отчет о доходах. 1 этап</h2>
+
+                <!-- Инструкции -->
+                <div class="alert alert-info alert-sm mb-3">
+                    <h6 class="alert-heading">📋 Инструкции:</h6>
+                    <ul class="mb-0 small">
+                        <li>Заполните все поля доходов и расходов</li>
+                        <li>Добавьте активы (сбережения, акции, недвижимость)</li>
+                        <li>Укажите все пассивы (долги)</li>
+                        <li>Цель: пассивный доход > общие расходы И все пассивы = 0</li>
+                    </ul>
+                </div>
                 
                 <!-- Информационные поля -->
                 <div class="row mb-3">
@@ -41,7 +52,7 @@
                                 <div class="row">
                                     <div class="col-12 mb-2">
                                         <label for="profession" class="form-label small">Профессия:</label>
-                                        <input type="text" class="form-control form-control-sm" id="profession" placeholder="Введите профессию">
+                                        <input type="text" class="form-control form-control-sm" id="profession" placeholder="Введите профессию" title="Ваша профессия в игре">
                                     </div>
                                     <div class="col-12 mb-2">
                                         <label for="dream" class="form-label small">Мечта:</label>
@@ -49,7 +60,7 @@
                                     </div>
                                     <div class="col-12">
                                         <label for="auditor" class="form-label small">Аудитор:</label>
-                                        <input type="text" class="form-control form-control-sm" id="auditor" placeholder="Имя аудитора">
+                                        <input type="text" class="form-control form-control-sm" id="auditor" placeholder="Имя аудитора" title="Имя аудитора в игре">
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +113,7 @@
                             <div class="card-body p-2">
                                 <div class="mb-2">
                                     <label for="salary" class="form-label small">Зарплата:</label>
-                                    <input type="number" class="form-control form-control-sm" id="salary" placeholder="0">
+                                    <input type="number" class="form-control form-control-sm" id="salary" placeholder="0" title="Ваша месячная зарплата">
                                 </div>
                                 
                                 <!-- Таблица недвижимости/бизнеса (доходы) -->
@@ -142,7 +153,7 @@
                                     <div class="col-6">
                                         <div class="mb-2">
                                             <label for="taxes" class="form-label small">Налоги:</label>
-                                            <input type="number" class="form-control form-control-sm" id="taxes" placeholder="0">
+                                            <input type="number" class="form-control form-control-sm" id="taxes" placeholder="0" title="Месячные налоги">
                                         </div>
                                         <div class="mb-2">
                                             <label for="house-mortgage" class="form-label small">Ипотека (расход):</label>
@@ -172,7 +183,7 @@
                                         </div>
                                         <div class="mb-2">
                                             <label for="children-count" class="form-label small">Количество детей:</label>
-                                            <input type="number" class="form-control form-control-sm" id="children-count" placeholder="0" min="0" max="3">
+                                            <input type="number" class="form-control form-control-sm" id="children-count" placeholder="0" min="0" max="3" title="Количество детей (0-3)">
                                             <div class="form-text small">Максимум 3 детей</div>
                                         </div>
                                         <div class="mb-2">
@@ -341,6 +352,17 @@
             <!-- Вкладка 2: Бланк учета денежных средств -->
             <div class="tab-pane fade" id="cashflow">
                 <h2 class="h5 mb-3">Бланк учета денежных средств</h2>
+
+                <!-- Инструкции -->
+                <div class="alert alert-info alert-sm mb-3">
+                    <h6 class="alert-heading">💰 Инструкции:</h6>
+                    <ul class="mb-0 small">
+                        <li>Укажите ваши сбережения и месячный денежный поток</li>
+                        <li>Стартовый капитал рассчитывается автоматически</li>
+                        <li>Записывайте все приходы и расходы в таблице</li>
+                        <li>Баланс обновляется автоматически</li>
+                    </ul>
+                </div>
                 
                 <!-- Стартовый капитал -->
                 <div class="row mb-4">
@@ -354,13 +376,13 @@
                                     <div class="col-md-6">
                                         <div class="mb-2">
                                             <label for="cashflow-savings" class="form-label small">Сбережения:</label>
-                                            <input type="number" class="form-control form-control-sm" id="cashflow-savings" placeholder="0">
+                                            <input type="number" class="form-control form-control-sm" id="cashflow-savings" placeholder="0" title="Ваши сбережения">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-2">
                                             <label for="cashflow-monthly-cashflow" class="form-label small">Месячный денежный поток:</label>
-                                            <input type="number" class="form-control form-control-sm" id="cashflow-monthly-cashflow" placeholder="0">
+                                            <input type="number" class="form-control form-control-sm" id="cashflow-monthly-cashflow" placeholder="0" title="Месячный денежный поток (доходы - расходы)">
                                         </div>
                                     </div>
                                 </div>
@@ -415,6 +437,17 @@
             <!-- Вкладка 3: Скоростная дорожка -->
             <div class="tab-pane fade" id="stage2">
                 <h2 class="h5 mb-3">Скоростная дорожка. 2 этап</h2>
+
+                <!-- Инструкции -->
+                <div class="alert alert-success alert-sm mb-3">
+                    <h6 class="alert-heading">🚀 Инструкции:</h6>
+                    <ul class="mb-0 small">
+                        <li>Этап доступен при выполнении условий 1 этапа</li>
+                        <li>Цель: достичь целевой суммы для победы</li>
+                        <li>Добавляйте бизнесы для увеличения дохода</li>
+                        <li>Победа: достижение целевой суммы</li>
+                    </ul>
+                </div>
                 
                 <!-- Целевые суммы -->
                 <div class="row mb-4">

@@ -372,8 +372,77 @@ function initEventHandlers() {
 }
 
 // Обновление состояния игры из поля ввода
+
+// Валидация ввода данных
+function validateInput(inputElement) {
+  const id = inputElement.id;
+  const value = inputElement.value;
+  const type = inputElement.type;
+  
+  // Очистка от ошибок валидации
+  inputElement.classList.remove("is-invalid");
+  
+  // Валидация числовых полей
+  if (type === "number") {
+    const numValue = parseFloat(value);
+    
+    // Проверка на отрицательные значения для денежных полей
+    const moneyFields = ["salary", "taxes", "house-mortgage", "education-loan", "car-loan", "credit-cards", "other-expenses", "bank-loan", "children-expenses", "savings", "precious-metals", "house-mortgage-liability", "education-loan-liability", "car-loan-liability", "credit-cards-liability", "bank-loan-liability", "initial-balance"];
+    
+    if (moneyFields.includes(id) && numValue < 0) {
+      showValidationError(inputElement, "Сумма не может быть отрицательной");
+      return false;
+    }
+    
+    // Проверка на разумные пределы
+    if (numValue > 1000000000) {
+      showValidationError(inputElement, "Сумма слишком большая (максимум 1 млрд)");
+      return false;
+    }
+    
+    // Проверка количества детей
+    if (id === "children-count" && (numValue < 0 || numValue > 3)) {
+      showValidationError(inputElement, "Количество детей должно быть от 0 до 3");
+      return false;
+    }
+  }
+  
+  // Валидация текстовых полей
+  if (type === "text" || type === "textarea") {
+    if (value.length > 100) {
+      showValidationError(inputElement, "Текст слишком длинный (максимум 100 символов)");
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+// Показать ошибку валидации
+function showValidationError(inputElement, message) {
+  inputElement.classList.add("is-invalid");
+  
+  // Удаляем предыдущее сообщение об ошибке
+  const existingError = inputElement.parentNode.querySelector(".invalid-feedback");
+  if (existingError) {
+    existingError.remove();
+  }
+  
+  // Создаем новое сообщение об ошибке
+  const errorDiv = document.createElement("div");
+  errorDiv.className = "invalid-feedback";
+  errorDiv.textContent = message;
+  inputElement.parentNode.appendChild(errorDiv);
+}
+
 function updateGameStateFromInput(inputElement) {
   const id = inputElement.id;
+
+  // Валидация ввода
+  if (!validateInput(inputElement)) {
+    return; // Не обновляем состояние при ошибке валидации
+  }
+
   const value = inputElement.value;
   
   // Маппинг полей ввода на свойства gameState

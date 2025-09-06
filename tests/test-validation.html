@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест валидации</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Тест валидации ввода</h1>
+        
+        <!-- Тест основных полей -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="h6 mb-0">Тест основных полей</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Зарплата (должна быть положительной)</label>
+                            <input type="number" class="form-control" id="salary" placeholder="0">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Количество детей (0-20)</label>
+                            <input type="number" class="form-control" id="children-count" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Профессия (максимум 100 символов)</label>
+                            <input type="text" class="form-control" id="profession" placeholder="Введите профессию">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Сбережения (не может быть отрицательными)</label>
+                            <input type="number" class="form-control" id="savings" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Тест табличных данных -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="h6 mb-0">Тест табличных данных</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Месячный доход</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="test-table-body">
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" placeholder="Название" onchange="testTableValidation(this, 'text')">
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm" placeholder="0" onchange="testTableValidation(this, 'number')">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addTestRow()">Добавить строку</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Тестовые сценарии -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="h6 mb-0">Тестовые сценарии</h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-danger" onclick="testNegativeValues()">Тест отрицательных значений</button>
+                    <button type="button" class="btn btn-warning" onclick="testLargeValues()">Тест больших значений</button>
+                    <button type="button" class="btn btn-info" onclick="testLongText()">Тест длинного текста</button>
+                    <button type="button" class="btn btn-success" onclick="testValidInput()">Тест корректных данных</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Консоль отладки -->
+        <div class="mt-4">
+            <h3>Консоль отладки</h3>
+            <div id="console" class="bg-dark text-light p-3" style="height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript файлов -->
+    <script src="js/game-data.js?v=6"></script>
+    <script src="js/calculations.js?v=2"></script>
+    <script src="js/app.js?v=19"></script>
+    
+    <script>
+        // Переопределяем функцию log для отображения в консоли
+        function log(message, data = null) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            console.innerHTML += logMessage + '<br>';
+            if (data) {
+                console.innerHTML += JSON.stringify(data, null, 2) + '<br>';
+            }
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Тест валидации табличных данных
+        function testTableValidation(inputElement, fieldType) {
+            if (typeof validateTableInput === 'function') {
+                const isValid = validateTableInput(inputElement, fieldType);
+                addToConsole(`Валидация ${fieldType}: ${isValid ? 'ПРОШЛА' : 'НЕ ПРОШЛА'}`);
+            } else {
+                addToConsole('Функция validateTableInput не найдена');
+            }
+        }
+        
+        // Добавление тестовой строки
+        function addTestRow() {
+            const tbody = document.getElementById('test-table-body');
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>
+                    <input type="text" class="form-control form-control-sm" placeholder="Название" onchange="testTableValidation(this, 'text')">
+                </td>
+                <td>
+                    <input type="number" class="form-control form-control-sm" placeholder="0" onchange="testTableValidation(this, 'number')">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">Удалить</button>
+                </td>
+            `;
+            addToConsole('Добавлена новая строка');
+        }
+        
+        // Тестовые сценарии
+        function testNegativeValues() {
+            addToConsole('=== Тест отрицательных значений ===');
+            
+            const salaryInput = document.getElementById('salary');
+            const savingsInput = document.getElementById('savings');
+            
+            salaryInput.value = '-1000';
+            salaryInput.dispatchEvent(new Event('input'));
+            
+            savingsInput.value = '-500';
+            savingsInput.dispatchEvent(new Event('input'));
+            
+            addToConsole('Введены отрицательные значения - должны появиться ошибки валидации');
+        }
+        
+        function testLargeValues() {
+            addToConsole('=== Тест больших значений ===');
+            
+            const salaryInput = document.getElementById('salary');
+            salaryInput.value = '2000000000';
+            salaryInput.dispatchEvent(new Event('input'));
+            
+            addToConsole('Введено большое значение - должна появиться ошибка валидации');
+        }
+        
+        function testLongText() {
+            addToConsole('=== Тест длинного текста ===');
+            
+            const professionInput = document.getElementById('profession');
+            professionInput.value = 'Очень длинное название профессии которое превышает максимально допустимую длину в сто символов и должно вызвать ошибку валидации';
+            professionInput.dispatchEvent(new Event('input'));
+            
+            addToConsole('Введен длинный текст - должна появиться ошибка валидации');
+        }
+        
+        function testValidInput() {
+            addToConsole('=== Тест корректных данных ===');
+            
+            const salaryInput = document.getElementById('salary');
+            const savingsInput = document.getElementById('savings');
+            const professionInput = document.getElementById('profession');
+            const childrenInput = document.getElementById('children-count');
+            
+            salaryInput.value = '50000';
+            salaryInput.dispatchEvent(new Event('input'));
+            
+            savingsInput.value = '100000';
+            savingsInput.dispatchEvent(new Event('input'));
+            
+            professionInput.value = 'Программист';
+            professionInput.dispatchEvent(new Event('input'));
+            
+            childrenInput.value = '2';
+            childrenInput.dispatchEvent(new Event('input'));
+            
+            addToConsole('Введены корректные данные - ошибок валидации быть не должно');
+        }
+        
+        function addToConsole(message) {
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `[${timestamp}] ${message}<br>`;
+            console.scrollTop = console.scrollHeight;
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            addToConsole('Страница загружена');
+            addToConsole('Валидация ввода готова к тестированию');
+        });
+    </script>
+</body>
+</html>

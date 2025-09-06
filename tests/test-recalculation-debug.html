@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест пересчета</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-3">
+        <h2>Тест пересчета</h2>
+        
+        <div class="row">
+            <div class="col-6">
+                <label for="salary" class="form-label">Зарплата:</label>
+                <input type="number" class="form-control" id="salary" value="0">
+            </div>
+            <div class="col-6">
+                <label for="taxes" class="form-label">Налоги:</label>
+                <input type="number" class="form-control" id="taxes" value="0">
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-6">
+                <strong>Общий доход: <span id="total-income">0 ₽</span></strong>
+            </div>
+            <div class="col-6">
+                <strong>Общие расходы: <span id="total-expenses">0 ₽</span></strong>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-6">
+                <strong>Месячный денежный поток: <span id="monthly-cash-flow">0 ₽</span></strong>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary mt-3" onclick="testRecalculation()">Тест пересчета</button>
+        <button class="btn btn-secondary mt-3" onclick="console.log('gameState:', gameState)">Показать gameState</button>
+    </div>
+
+    <script src="js/game-data.js?v=8"></script>
+    <script src="js/calculations.js?v=2"></script>
+    <script src="js/app.js?v=21"></script>
+    
+    <script>
+        function testRecalculation() {
+            console.log('Тестируем пересчет...');
+            console.log('gameState до:', gameState);
+            
+            // Устанавливаем значения
+            gameState.income.salary = 50000;
+            gameState.expenses.taxes = 10000;
+            
+            console.log('gameState после установки:', gameState);
+            
+            // Вызываем пересчет
+            if (typeof recalculateAll === 'function') {
+                recalculateAll();
+                console.log('Пересчет выполнен');
+            } else {
+                console.error('Функция recalculateAll не найдена!');
+            }
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM загружен');
+            if (typeof initApp === 'function') {
+                initApp();
+                console.log('Приложение инициализировано');
+            } else {
+                console.error('Функция initApp не найдена!');
+            }
+        });
+    </script>
+</body>
+</html>
