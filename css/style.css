@@ -1278,3 +1278,677 @@ h1, h2, h3, h4, h5, h6 {
 .btn:active {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
 }
+
+/* Исправления для кнопок удаления (минус) */
+
+/* Кнопки удаления в таблицах - делаем их серыми вместо красных */
+.btn-danger {
+    color: #ffffff !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+}
+
+.btn-danger:hover {
+    color: #ffffff !important;
+    background-color: #5a6268 !important;
+    border-color: #545b62 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+.btn-danger:active {
+    color: #ffffff !important;
+    background-color: #545b62 !important;
+    border-color: #4e555b !important;
+    transform: translateY(0);
+}
+
+/* Кнопки удаления с outline - делаем их серыми */
+.btn-outline-danger {
+    color: #6c757d !important;
+    background-color: transparent !important;
+    border-color: #6c757d !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+}
+
+.btn-outline-danger:hover {
+    color: #ffffff !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+.btn-outline-danger:active {
+    color: #ffffff !important;
+    background-color: #5a6268 !important;
+    border-color: #545b62 !important;
+    transform: translateY(0);
+}
+
+/* Исключение: кнопка "Сбросить игру" должна остаться красной */
+#reset-game-btn.btn-outline-danger {
+    color: #ffffff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    font-weight: 600 !important;
+    border-width: 2px !important;
+}
+
+#reset-game-btn.btn-outline-danger:hover {
+    color: #ffffff !important;
+    background-color: #bb2d3b !important;
+    border-color: #b02a37 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+#reset-game-btn.btn-outline-danger:active {
+    color: #ffffff !important;
+    background-color: #a02834 !important;
+    border-color: #9a252f !important;
+    transform: translateY(0);
+}
+
+/* Дополнительные улучшения для кнопок удаления на мобильных */
+@media (max-width: 768px) {
+    .btn-danger,
+    .btn-outline-danger {
+        min-height: 40px !important;
+        font-size: 0.8rem !important;
+        padding: 0.5rem 0.75rem !important;
+    }
+    
+    .btn-danger.btn-sm,
+    .btn-outline-danger.btn-sm {
+        min-height: 36px !important;
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-danger,
+    .btn-outline-danger {
+        min-height: 44px !important;
+        font-size: 0.8rem !important;
+        padding: 0.5rem 0.7rem !important;
+    }
+    
+    .btn-danger.btn-sm,
+    .btn-outline-danger.btn-sm {
+        min-height: 40px !important;
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+}
+
+/* Специальные стили для кнопок в таблицах */
+.table .btn-danger,
+.table .btn-outline-danger {
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Улучшения для touch-устройств */
+@media (hover: none) and (pointer: coarse) {
+    .btn-danger,
+    .btn-outline-danger {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    
+    .btn-danger.btn-sm,
+    .btn-outline-danger.btn-sm {
+        min-height: 40px !important;
+        min-width: 40px !important;
+    }
+    
+    /* Убираем hover эффекты на touch устройствах */
+    .btn-danger:hover,
+    .btn-outline-danger:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Исправления для кнопок удаления (минус) - делаем их видимыми */
+
+/* Кнопки удаления в таблицах - делаем их темно-серыми с хорошей видимостью */
+.btn-danger {
+    color: #ffffff !important;
+    background-color: #495057 !important;
+    border-color: #495057 !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn-danger:hover {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.btn-danger:active {
+    color: #ffffff !important;
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Кнопки удаления с outline - делаем их темно-серыми с хорошей видимостью */
+.btn-outline-danger {
+    color: #495057 !important;
+    background-color: #f8f9fa !important;
+    border-color: #495057 !important;
+    font-weight: 600 !important;
+    border-width: 2px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-outline-danger:hover {
+    color: #ffffff !important;
+    background-color: #495057 !important;
+    border-color: #495057 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn-outline-danger:active {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Исключение: кнопка "Сбросить игру" должна остаться красной */
+#reset-game-btn.btn-outline-danger {
+    color: #ffffff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    font-weight: 600 !important;
+    border-width: 2px !important;
+}
+
+#reset-game-btn.btn-outline-danger:hover {
+    color: #ffffff !important;
+    background-color: #bb2d3b !important;
+    border-color: #b02a37 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+#reset-game-btn.btn-outline-danger:active {
+    color: #ffffff !important;
+    background-color: #a02834 !important;
+    border-color: #9a252f !important;
+    transform: translateY(0);
+}
+
+/* Дополнительные улучшения для кнопок удаления на мобильных */
+@media (max-width: 768px) {
+    .btn-danger,
+    .btn-outline-danger {
+        min-height: 40px !important;
+        font-size: 0.8rem !important;
+        padding: 0.5rem 0.75rem !important;
+    }
+    
+    .btn-danger.btn-sm,
+    .btn-outline-danger.btn-sm {
+        min-height: 36px !important;
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-danger,
+    .btn-outline-danger {
+        min-height: 44px !important;
+        font-size: 0.8rem !important;
+        padding: 0.5rem 0.7rem !important;
+    }
+    
+    .btn-danger.btn-sm,
+    .btn-outline-danger.btn-sm {
+        min-height: 40px !important;
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+}
+
+/* Специальные стили для кнопок в таблицах */
+.table .btn-danger,
+.table .btn-outline-danger {
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 0.25rem !important;
+}
+
+/* Улучшения для touch-устройств */
+@media (hover: none) and (pointer: coarse) {
+    .btn-danger,
+    .btn-outline-danger {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    
+    .btn-danger.btn-sm,
+    .btn-outline-danger.btn-sm {
+        min-height: 40px !important;
+        min-width: 40px !important;
+    }
+    
+    /* Убираем hover эффекты на touch устройствах */
+    .btn-danger:hover,
+    .btn-outline-danger:hover {
+        transform: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    }
+}
+
+/* Дополнительная видимость для кнопок удаления */
+.btn-danger,
+.btn-outline-danger {
+    text-shadow: none !important;
+    transition: all 0.15s ease-in-out !important;
+}
+
+/* Улучшенная видимость для кнопок с иконками */
+.btn-danger:before,
+.btn-outline-danger:before {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 0;
+}
+
+/* Специальные стили для кнопок удаления в заголовках карточек */
+.card-header .btn-outline-danger {
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    border-color: #495057 !important;
+    font-weight: 700 !important;
+}
+
+.card-header .btn-outline-danger:hover {
+    background-color: #495057 !important;
+    color: #ffffff !important;
+    border-color: #495057 !important;
+}
+
+/* Улучшения для вкладки "Учет" - знаки по краям, цифры посередине */
+
+/* Стили для полей ввода с валютными символами */
+.cashflow-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cashflow-input-group .form-control {
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 2.5rem !important;
+    border: 2px solid #dee2e6 !important;
+    border-radius: 0.5rem !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+.cashflow-input-group .form-control:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* Символы валюты по краям */
+.cashflow-input-group .currency-symbol {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #6c757d;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.cashflow-input-group .currency-symbol.left {
+    left: 0.75rem;
+}
+
+.cashflow-input-group .currency-symbol.right {
+    right: 0.75rem;
+}
+
+/* Специальные стили для полей ввода во вкладке "Учет" */
+#cashflow-savings,
+#cashflow-monthly-cashflow {
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 2.5rem !important;
+    border: 2px solid #dee2e6 !important;
+    border-radius: 0.5rem !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+#cashflow-savings:focus,
+#cashflow-monthly-cashflow:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* Стили для полей ввода транзакций */
+#transactions-table-body input[type="number"] {
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem 2rem !important;
+    border: 2px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    min-width: 120px !important;
+}
+
+#transactions-table-body input[type="number"]:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* Стили для полей ввода бизнесов */
+#businesses-table-body input[type="number"] {
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem 2rem !important;
+    border: 2px solid #dee2e6 !important;
+    border-radius: 0.375rem !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    min-width: 120px !important;
+}
+
+#businesses-table-body input[type="number"]:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* Улучшения для кнопок типа транзакции */
+.btn-group .btn-check:checked + .btn-outline-success {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 4px rgba(25, 135, 84, 0.3) !important;
+}
+
+.btn-group .btn-check:checked + .btn-outline-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3) !important;
+}
+
+/* Улучшения для рассчитанных полей */
+#starting-capital,
+#current-balance {
+    text-align: center !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    padding: 0.75rem !important;
+    background-color: #f8f9fa !important;
+    border: 2px solid #dee2e6 !important;
+    border-radius: 0.5rem !important;
+    color: #212529 !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .cashflow-input-group .form-control,
+    #cashflow-savings,
+    #cashflow-monthly-cashflow {
+        font-size: 0.9rem !important;
+        padding: 0.6rem 2rem !important;
+    }
+    
+    #transactions-table-body input[type="number"],
+    #businesses-table-body input[type="number"] {
+        font-size: 0.8rem !important;
+        padding: 0.4rem 1.5rem !important;
+        min-width: 100px !important;
+    }
+    
+    #starting-capital,
+    #current-balance {
+        font-size: 1rem !important;
+        padding: 0.6rem !important;
+        min-height: 44px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .cashflow-input-group .form-control,
+    #cashflow-savings,
+    #cashflow-monthly-cashflow {
+        font-size: 0.85rem !important;
+        padding: 0.5rem 1.5rem !important;
+    }
+    
+    #transactions-table-body input[type="number"],
+    #businesses-table-body input[type="number"] {
+        font-size: 0.75rem !important;
+        padding: 0.3rem 1.2rem !important;
+        min-width: 80px !important;
+    }
+    
+    #starting-capital,
+    #current-balance {
+        font-size: 0.9rem !important;
+        padding: 0.5rem !important;
+        min-height: 40px !important;
+    }
+}
+
+/* Дополнительные улучшения для читаемости */
+.cashflow-input-group .form-control::placeholder {
+    color: #6c757d !important;
+    font-weight: 400 !important;
+}
+
+#transactions-table-body input[type="number"]::placeholder,
+#businesses-table-body input[type="number"]::placeholder {
+    color: #6c757d !important;
+    font-weight: 400 !important;
+}
+
+/* Улучшения для таблиц во вкладке "Учет" */
+#cashflow .table th {
+    text-align: center !important;
+    font-weight: 700 !important;
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+}
+
+#cashflow .table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/* Стили для кнопок в таблицах */
+#cashflow .btn-group .btn {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+}
+
+/* Исправления для кнопок типа транзакции - правильная логика выбора */
+
+/* Кнопки типа транзакции по умолчанию (не выбраны) */
+.btn-group .btn-outline-success {
+    color: #6c757d !important;
+    background-color: #f8f9fa !important;
+    border-color: #6c757d !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+}
+
+.btn-group .btn-outline-danger {
+    color: #6c757d !important;
+    background-color: #f8f9fa !important;
+    border-color: #6c757d !important;
+    font-weight: 600 !important;
+    border-width: 1px !important;
+}
+
+/* Кнопки типа транзакции при наведении (не выбраны) */
+.btn-group .btn-outline-success:hover {
+    color: #198754 !important;
+    background-color: #d1e7dd !important;
+    border-color: #198754 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(25, 135, 84, 0.2) !important;
+}
+
+.btn-group .btn-outline-danger:hover {
+    color: #dc3545 !important;
+    background-color: #f8d7da !important;
+    border-color: #dc3545 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2) !important;
+}
+
+/* Кнопки типа транзакции при выборе (активные) */
+.btn-group .btn-check:checked + .btn-outline-success {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 4px rgba(25, 135, 84, 0.3) !important;
+    transform: none !important;
+}
+
+.btn-group .btn-check:checked + .btn-outline-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3) !important;
+    transform: none !important;
+}
+
+/* Кнопки типа транзакции при нажатии */
+.btn-group .btn-outline-success:active {
+    color: #ffffff !important;
+    background-color: #146c43 !important;
+    border-color: #13653f !important;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(25, 135, 84, 0.4) !important;
+}
+
+.btn-group .btn-outline-danger:active {
+    color: #ffffff !important;
+    background-color: #bb2d3b !important;
+    border-color: #b02a37 !important;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(220, 53, 69, 0.4) !important;
+}
+
+/* Дополнительные улучшения для кнопок транзакций */
+.btn-group .btn {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    font-size: 0.9rem !important;
+    transition: all 0.15s ease-in-out !important;
+    border-radius: 0.375rem !important;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .btn-group .btn {
+        min-width: 36px !important;
+        min-height: 36px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-group .btn {
+        min-width: 32px !important;
+        min-height: 32px !important;
+        font-size: 0.75rem !important;
+    }
+}
+
+/* Улучшения для touch-устройств */
+@media (hover: none) and (pointer: coarse) {
+    .btn-group .btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+    
+    /* Убираем hover эффекты на touch устройствах */
+    .btn-group .btn-outline-success:hover,
+    .btn-group .btn-outline-danger:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Специальные стили для кнопок в таблицах транзакций */
+#transactions-table-body .btn-group .btn {
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+/* Улучшенная видимость для кнопок транзакций */
+.btn-group .btn-outline-success,
+.btn-group .btn-outline-danger {
+    text-shadow: none !important;
+    border-width: 1px !important;
+}
+
+/* Дополнительная видимость для выбранных кнопок */
+.btn-group .btn-check:checked + .btn-outline-success,
+.btn-group .btn-check:checked + .btn-outline-danger {
+    border-width: 2px !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1) !important;
+}
